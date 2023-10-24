@@ -31,9 +31,6 @@ function Header() {
     dispatch(setStateQuest(false));
     dispatch(setStateReward(false));
     dispatch(setStateLeaderboard(false));
-    // setValueQuest();
-    // setValueReward();
-    // setValueSetup();
     navigate("/campaign/create");
   };
   return (
@@ -64,7 +61,7 @@ function Header() {
               onClick={() => buttonAlert()}
               className="rounded-full bg-[#B575AB] text-white text-[12px] md:text-[18px] font-semibold px-4 py-2 md:px-8 md:py-6 flex items-center border-none outline-none !hover:"
             >
-              {currentAccount ? `${currentAccount.slice(0, 6)}...${currentAccount.slice(-6)}` : "Connect Wallet"}
+              {currentAccount && `${currentAccount.slice(0, 6)}...${currentAccount.slice(-6)}`}
             </Button>
           </div>
         </div>
