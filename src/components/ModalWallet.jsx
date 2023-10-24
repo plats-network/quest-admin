@@ -19,10 +19,10 @@ export const ModalWallet = ({ setIsModal }) => {
       };
 
       try {
-        hocApiPost(routes.authentication.walletRegister, body)();
-        hocApiPost(routes.authentication.walletLogin, body)().then((res) => {
+        hocApiPost(routes.authentication.walletRegister, body)().then((res) => {
           localStorage.setItem("token", res.data.token);
         });
+        hocApiPost(routes.authentication.walletLogin, body)();
       } catch (error) {
         throw new Error(error);
       }
