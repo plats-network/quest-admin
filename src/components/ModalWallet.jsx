@@ -4,11 +4,13 @@ import { routes } from "../routes";
 import { hocApiPost } from "../services/api-connect-wallet";
 import { setCurrentAccount } from "../redux/accountSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const ModalWallet = ({ setIsModal }) => {
   const dispatch = useDispatch();
   const { account, connect } = useWallet();
   const wallets = useAllWallets();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (account?.address) {
@@ -17,12 +19,12 @@ export const ModalWallet = ({ setIsModal }) => {
         wallet_address: account?.address,
         wallet_name: account?.name,
       };
-
       try {
-        hocApiPost(routes.authentication.walletRegister, body)();
-        hocApiPost(routes.authentication.walletLogin, body)().then((res) => {
+        hocApiPost(routes.authentication.walletRegister, body)().then((res) => {
           localStorage.setItem("token", res.data.token);
         });
+        hocApiPost(routes.authentication.walletLogin, body)();
+        navigate("/campaign");
       } catch (error) {
         throw new Error(error);
       }

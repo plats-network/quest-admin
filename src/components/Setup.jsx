@@ -229,7 +229,7 @@ function Setup({ setValue, setValueSetup, data }) {
             Reset
           </button>
 
-          <div className="flex items-center justify-center gap-4 md:gap-8">
+          <div className="flex items-center justify-center gap-4 md:gap-8 pb-8">
             <button
               style={{ display: stateSetup ? "none" : "" }}
               onClick={handleSave}
