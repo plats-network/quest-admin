@@ -1,0 +1,194 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .title {
+    @apply  text-[20px] md:text-[40px] font-semibold text-white
+  }
+  .heading {
+    @apply text-[16px] md:text-[20px] font-medium mb-2 md:mb-3 block text-white
+  }
+  .container {
+    @apply max-w-screen-xl mx-auto mt-5
+  }
+  .btnGradient1 {
+    @apply bg-gradient-to-r from-purple-500 to-pink-500
+  }
+  .btnGradient2 {
+    @apply bg-gradient-to-r from-[#ED7D31] to-fuchsia-500
+  }
+  .borderBlue {
+    @apply border-[1px]  border-[#279EFF]
+  }
+  .truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Số dòng bạn muốn hiển thị trước khi cắt */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+  .loading-indicator:before {
+    content: "";
+    background: #00000080;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.loading-indicator:after {
+    content: " ";
+    position: fixed;
+    top: 40%;
+    left: 45%;
+    z-index: 10010;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #0474bf; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.pagination-container a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    height: 40px;
+    min-width: 60px;
+    margin-left: 8px;
+    padding: 0 5px;
+    font-size: 18px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+@media (max-width: 538px) {
+  .pagination-container a {
+    @apply h-[30px] ml-2 min-w-[32px] text-[14px] px-0
+  }
+}
+
+.pagination-container a.active {
+    background-color: #068FFF;
+    color: white;
+    border: 1px solid #7cbddb;
+    border-radius: 4px;
+}
+
+.pagination-container a.disabled {
+    opacity: 0.2;
+}
+.pagination-container a:hover:not(.active) {
+    background-color: rgb(238, 238, 238);
+}
+}
+
+@layer base {
+  html {
+    width: 100%;
+    height: 100vh;
+    background-image: url("/src/asset/img/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  @layer base {
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+}
+}
+
+  .react-datepicker-wrapper {
+    @apply w-full block
+  }
+  .ant-select-selection-item {
+    @apply text-[18px] text-white
+  }
+  .ant-segmented-item {
+    @apply px-0 md:p-2 md:px-10
+  }
+  .ant-segmented-item-label {
+  @apply text-[14px] md:text-[18px] font-semibold
+  }
+  .ant-segmented-item.ant-segmented-item-selected {
+  @apply bg-[#A6FF96]
+  }
+  .ant-input.css-dev-only-do-not-override-amq5gd {
+  @apply leading-10
+  }
+  .ant-input-group-addon {
+    @apply !text-[14px] md:!text-[20px] !text-white
+  }
+  .ant-input {
+    @apply text-[14px] md:text-[18px]
+  }
+  .ant-btn-primary:hover {
+    @apply bg-red-600 text-red-600
+  }
+  .ant-picker-input input {
+    @apply !text-white
+  }
+  .ant-input {
+    @apply px-2 leading-9 md:leading-[50px]
+  }
+  .ant-select-arrow {
+    @apply !text-white text-[16px] md:!text-[20px]
+  }
+  .ant-select-item-option-selected {
+    @apply !bg-[#FD8D14]
+  }
+ .ant-select-item-option-content {
+ @apply text-[14px] md:text-[18px]
+ }
+ .ant-input.ant-input-disabled {
+  @apply !text-white
+ }
+ .ant-btn-default:disabled {
+  @apply bg-[#279EFF] text-white
+ }
+ .ant-segmented-item-disabled {
+  @apply !cursor-pointer !text-black
+ }
+
+.ant-upload-list-item-name {
+  @apply text-white text-[18px] !pl-8 !pr-40 mr-4 absolute -bottom-10 -left-5
+}
+.ant-upload-list-item {
+  @apply border-2 !border-yellow-600 !w-[400px] !h-[200px] !mt-5
+}
+.ant-upload-list-item-thumbnail {
+  @apply !h-full !w-full
+}
+.ant-upload-list-item-image {
+  @apply w-full h-full object-cover rounded-lg
+}
+.ant-btn-sm {
+  @apply bg-white !w-[36px] !h-[36px] text-[34px] ml-10
+}
+.anticon.anticon-delete {
+  @apply !text-[28px]
+}
