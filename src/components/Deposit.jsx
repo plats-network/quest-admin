@@ -10,6 +10,8 @@ import { callApiCreate, callApiUpdate } from "../services/callApiCreate";
 import { useDispatch } from "react-redux";
 import { setStateDeposit, setStateLeaderboard } from "../redux/stateCampaign";
 import { useLocation, useParams } from "react-router-dom";
+import { main } from "../utils/phala-setup";
+import { getSigner } from "../utils/polkadotExtention";
 
 function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest, valueReward, isDeposit }) {
   const param = useParams();
@@ -19,6 +21,26 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
   const alpheDeposit = useTx(alpheContract, "deposit");
   const dispatch = useDispatch();
   const isDetail = useLocation().pathname.includes("detail");
+
+  // PHALA
+  const [contract, setContract] = useState();
+  const [account, setAccount] = useState("");
+  const [signer, setSigner] = useState("");
+  const [registry, setRegistry] = useState();
+  const [cert, setCert] = useState();
+  const [pair, setPair] = useState();
+
+  useEffect(() => {
+    main().then((res) => {
+      const { account, contract, phatRegistry, signer, cert, pair } = res;
+      setAccount(account);
+      setContract(contract);
+      setSigner(signer);
+      setRegistry(phatRegistry);
+      setCert(cert);
+      setPair(pair);
+    });
+  }, []);
 
   const handleDeposit = async () => {
     if (!checkConnectWallet()) {
@@ -36,6 +58,33 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       return false;
     }
     return true;
+  };
+
+  const handleDepositPhala = async () => {
+    const signer = await getSigner(account);
+    contract.tx.deposit({}).signAndSend(account.address, { signer }, { value: 2000 }, (status) => {
+      if (status.isInBlock) {
+        console.log("success");
+      }
+    });
+  };
+
+  const handleReward = async () => {
+    const signer = await getSigner(account);
+    const listLucky = [
+      "5G4URyHwDkRy29QvtofisCZhjqdjyUYMpvAUzzpBnhMNnY4z",
+      "5Cu5qz2GSd1kaQFGiuqhKvTR2K7tJsrmffpfb6DFiwWoBcqt",
+    ];
+    contract.tx.reward({}).signAndSend(account.address, { signer }, { value: 2000 }, (status) => {
+      if (status.isInBlock) {
+        console.log("success");
+      }
+    });
+  };
+
+  const hanldeQuery = async () => {
+    const { output } = await contract.query.getBalance(pair.address, { cert });
+    console.log({ output });
   };
 
   useEffect(() => {
@@ -70,14 +119,35 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       {isDetail && valueSetup?.status === "Active" ? (
         ""
       ) : (
-        <Button
-          loading={U.shouldDisable(alpheDeposit)}
-          disabled={U.shouldDisable(alpheDeposit) || !valueReward?.totalReward}
-          onClick={handleDeposit}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
-        >
-          {U.shouldDisable(alpheDeposit) ? "Depositing & Public" : "Deposit & Public"}
-        </Button>
+        // <Button
+        //   loading={U.shouldDisable(alpheDeposit)}
+        //   disabled={U.shouldDisable(alpheDeposit) || !valueReward?.totalReward}
+        //   onClick={handleDeposit}
+        //   className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
+        // >
+        //   {U.shouldDisable(alpheDeposit) ? "Depositing & Public" : "Deposit & Public"}
+        // </Button>
+
+        <>
+          <Button
+            onClick={handleDepositPhala}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
+          >
+            Deposit
+          </Button>
+          <Button
+            onClick={handleReward}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
+          >
+            Reward
+          </Button>
+          <Button
+            onClick={hanldeQuery}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
+          >
+            Reward
+          </Button>
+        </>
       )}
     </div>
   );
