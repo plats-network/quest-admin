@@ -139,7 +139,7 @@ function Tabs() {
   return (
     <>
       <div className="w-[50%] pb-4">
-        <Segmented className="" options={ListTabs()} value={value} onChange={setValue} disabled={checkDisable()} />
+        <Segmented className="" options={ListTabs()} value={value} onChange={setValue} />
       </div>
       {Options[value]}
     </>
