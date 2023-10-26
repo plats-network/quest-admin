@@ -3,6 +3,7 @@ import { instanceAxios } from "./api-connect-wallet";
 import dayjs from 'dayjs'
 
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
+    console.log({valueSetup});
     const tasks = [];
     if (valueQuest?.tokenHolder?.minimumAmount) {
         tasks.push({

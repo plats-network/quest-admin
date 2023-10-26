@@ -44,6 +44,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
         numberWinner,
       });
       setValue("Deposit");
+      console.log("ok");
       dispatch(setStateReward(true));
     } else {
       notifyError("Please complete all information !");
@@ -57,7 +58,6 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
   };
 
   const handleSave = async () => {
-    console.log(checkLogin());
     if (!checkLogin()) {
       notifyError("Please connect wallet first");
       return;
@@ -98,6 +98,15 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
       setIsEdit(true);
     }
   };
+
+  const handleNetwork = (value) => {
+    setNetwork(value);
+    if (value === "Phala") {
+      setCategoryToken("PHA");
+    } else {
+      setCategoryToken("AZERO");
+    }
+  };
   return (
     <div className="">
       <div className="py-2 px-4 md:py-6 md:px-8 rounded-lg border-[1px] border-[#279EFF]">
@@ -110,7 +119,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
               size="large"
               defaultValue={network}
               value={network}
-              onChange={setNetwork}
+              onChange={handleNetwork}
             >
               {NetWorks.map((item) => (
                 <Select.Option key={item.network} value={item.network} label={item.network}>
