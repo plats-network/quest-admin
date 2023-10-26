@@ -7,7 +7,6 @@ import { ModalWallet } from "../components/ModalWallet";
 function Home() {
   const navigate = useNavigate();
   const { currentAccount } = useSelector((state) => state.account);
-  console.log({ currentAccount });
   const [isModal, setIsModal] = useState(false);
 
   const handleConnect = () => {

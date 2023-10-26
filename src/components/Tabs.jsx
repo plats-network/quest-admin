@@ -93,7 +93,6 @@ function Tabs() {
       fetch();
     }
   }, [param?.id]);
-
   const Options = {
     Setup: <Setup setValue={setValue} setValueSetup={setValueSetup} data={valueSetup} />,
     Quest: <Quest setValue={setValue} valueSetup={valueSetup} setValueQuest={setValueQuest} data={valueQuest} />,
@@ -129,10 +128,18 @@ function Tabs() {
       />
     ),
   };
+
+  const checkDisable = () => {
+    if (param?.id) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       <div className="w-[50%] pb-4">
-        <Segmented className="" options={ListTabs()} value={value} onChange={setValue} />
+        <Segmented className="" options={ListTabs()} value={value} onChange={setValue} disabled={checkDisable()} />
       </div>
       {Options[value]}
     </>

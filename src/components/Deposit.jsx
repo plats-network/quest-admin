@@ -7,7 +7,7 @@ import { getAccountAddress } from "../services/getAccount";
 import { Button } from "antd";
 import { notifyError, notifySuccess } from "../utils/toastify";
 import { callApiCreate, callApiUpdate } from "../services/callApiCreate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setStateDeposit, setStateLeaderboard } from "../redux/stateCampaign";
 import { useLocation, useParams } from "react-router-dom";
 import { main } from "../utils/phala-setup";
@@ -21,28 +21,13 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
   const alpheDeposit = useTx(alpheContract, "deposit");
   const dispatch = useDispatch();
   const isDetail = useLocation().pathname.includes("detail");
-
-  // PHALA
-  const [contract, setContract] = useState();
-  const [account, setAccount] = useState("");
-  const [signer, setSigner] = useState("");
-  const [registry, setRegistry] = useState();
-  const [cert, setCert] = useState();
-  const [pair, setPair] = useState();
-
+  const [isLoading, setIsLoading] = useState(false);
+  const { contract, account } = useSelector((state) => state.stateCampaign);
   useEffect(() => {
-    main().then((res) => {
-      const { account, contract, phatRegistry, signer, cert, pair } = res;
-      setAccount(account);
-      setContract(contract);
-      setSigner(signer);
-      setRegistry(phatRegistry);
-      setCert(cert);
-      setPair(pair);
-    });
+    main(dispatch);
   }, []);
 
-  const handleDeposit = async () => {
+  const handleDepositAzero = async () => {
     if (!checkConnectWallet()) {
       return;
     }
@@ -62,30 +47,45 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
 
   const handleDepositPhala = async () => {
     const signer = await getSigner(account);
-    contract.tx.deposit({}).signAndSend(account.address, { signer }, { value: 2000 }, (status) => {
+    contract.tx.deposit({}).signAndSend(account.address, { signer }, (status) => {
       if (status.isInBlock) {
-        console.log("success");
+        setIsLoading(false);
+        notifySuccess("Deposit Successfully!");
+        if (param?.id) {
+          callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true);
+        } else {
+          callApiCreate(valueSetup, valueQuest, valueReward, true);
+        }
+        //call api
+        setValue("Leaderboard");
+        dispatch(setStateDeposit(true));
+        dispatch(setStateLeaderboard(true));
+      } else {
+        setIsLoading(true);
       }
     });
   };
 
-  const handleReward = async () => {
-    const signer = await getSigner(account);
-    const listLucky = [
-      "5G4URyHwDkRy29QvtofisCZhjqdjyUYMpvAUzzpBnhMNnY4z",
-      "5Cu5qz2GSd1kaQFGiuqhKvTR2K7tJsrmffpfb6DFiwWoBcqt",
-    ];
-    contract.tx.reward({}).signAndSend(account.address, { signer }, { value: 2000 }, (status) => {
-      if (status.isInBlock) {
-        console.log("success");
-      }
-    });
+  const handleDeposit = async () => {
+    if (valueReward?.network === "Phala") {
+      await handleDepositPhala();
+    } else {
+      await handleDepositAzero();
+    }
   };
 
-  const hanldeQuery = async () => {
-    const { output } = await contract.query.getBalance(pair.address, { cert });
-    console.log({ output });
-  };
+  //   const handleReward = async () => {
+  //     const signer = await getSigner(account);
+  //     const listLucky = [
+  //       "5G4URyHwDkRy29QvtofisCZhjqdjyUYMpvAUzzpBnhMNnY4z",
+  //       "5Cu5qz2GSd1kaQFGiuqhKvTR2K7tJsrmffpfb6DFiwWoBcqt",
+  //     ];
+  //     contract.tx.reward({}).signAndSend(account.address, { signer }, { value: 2000 }, (status) => {
+  //       if (status.isInBlock) {
+  //         console.log("success");
+  //       }
+  //     });
+  //   };
 
   useEffect(() => {
     if (U.isInBlock(alpheDeposit)) {
@@ -99,13 +99,14 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       dispatch(setStateDeposit(true));
       dispatch(setStateLeaderboard(true));
     } else if (isFlagDeposit && !param?.id) {
-      setValue("Leaderboard");
       //call api
+      setValue("Leaderboard");
       callApiCreate(valueSetup, valueQuest, valueReward, true);
       dispatch(setStateDeposit(true));
       dispatch(setStateLeaderboard(true));
     }
   }, [U.isInBlock(alpheDeposit)]);
+
   return (
     <div className="">
       <p className="text-[16px] md:text-[20px] font-semibold text-white py-4 px-4 rounded-lg borderBlue">
@@ -119,34 +120,27 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       {isDetail && valueSetup?.status === "Active" ? (
         ""
       ) : (
-        // <Button
-        //   loading={U.shouldDisable(alpheDeposit)}
-        //   disabled={U.shouldDisable(alpheDeposit) || !valueReward?.totalReward}
-        //   onClick={handleDeposit}
-        //   className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
-        // >
-        //   {U.shouldDisable(alpheDeposit) ? "Depositing & Public" : "Deposit & Public"}
-        // </Button>
-
         <>
-          <Button
-            onClick={handleDepositPhala}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
-          >
-            Deposit
-          </Button>
-          <Button
-            onClick={handleReward}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
-          >
-            Reward
-          </Button>
-          <Button
-            onClick={hanldeQuery}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
-          >
-            Reward
-          </Button>
+          {valueReward?.network === "Aleph Zero" && (
+            <Button
+              loading={U.shouldDisable(alpheDeposit)}
+              disabled={U.shouldDisable(alpheDeposit) || !valueReward?.totalReward}
+              onClick={handleDeposit}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
+            >
+              {U.shouldDisable(alpheDeposit) ? "Depositing & Public" : "Deposit & Public"}
+            </Button>
+          )}
+          {valueReward?.network === "Phala" && (
+            <Button
+              loading={isLoading}
+              disabled={!contract || !valueReward?.totalReward}
+              onClick={handleDeposit}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded relative left-[50%] -translate-x-[50%]  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center"
+            >
+              Deposit & Public
+            </Button>
+          )}
         </>
       )}
     </div>
