@@ -1,7 +1,8 @@
 import axios from "axios"
 
+
 export const instanceAxios = axios.create({
-    baseURL: "https://plats-quest.vaix.group",
+    baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 30000,
 })
 

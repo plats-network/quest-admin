@@ -1,17 +1,15 @@
-import { Input, message } from "antd";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { DatePicker, Button } from "antd";
-import { ToastContainer } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { setSaveSuccess, setStateSetup } from "../redux/stateCampaign";
-import { notifyError } from "../utils/toastify";
+import { DatePicker, Input } from "antd";
 import dayjs from "dayjs";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { FaUpload } from "react-icons/fa";
-import { Upload } from "../asset/img";
-import { callApiCreate } from "../services/callApiCreate";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { Upload } from "../asset/img";
+import { setSaveSuccess, setStateSetup } from "../redux/stateCampaign";
+import { callApiCreate } from "../services/callApiCreate";
 import { checkLogin } from "../utils/checkLogin";
+import { notifyError } from "../utils/toastify";
 
 const IMAGE_MAX_SIZE = 5000000;
 
