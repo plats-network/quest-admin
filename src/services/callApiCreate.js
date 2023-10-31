@@ -59,6 +59,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
             name: "Twitter HashTag",
             entry_type: "TWITTER_HASHTAG",
             value: valueQuest?.twitterHashtag,
+            hash_tag: valueQuest?.twitterHashtagUrl,
             status : "Active"
         })
     }

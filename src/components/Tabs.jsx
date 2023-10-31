@@ -30,6 +30,7 @@ function Tabs() {
       let twitterLike = null;
       let twitterRetweet = null;
       let twitterHashtag = null;
+      let twitterHastagUrl = null;
       let tokenHolder = null;
       let transactionActivity = null;
       try {
@@ -63,6 +64,7 @@ function Tabs() {
           }
           if (item?.entry_type === "TWITTER_HASHTAG") {
             twitterHashtag = item?.value;
+            twitterHastagUrl = item.hash_tag;
           }
         });
         setValueSetup({
@@ -78,6 +80,7 @@ function Tabs() {
           twitterRetweet,
           twitterLike,
           twitterHashtag,
+          twitterHastagUrl,
           tokenHolder,
           transactionActivity,
           status: data?.status,

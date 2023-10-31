@@ -42,6 +42,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
   const [retweet, setRetweet] = useState(data?.twitterRetweet || "");
   const [like, setLike] = useState(data?.twitterLike || "");
   const [hashtag, setHashtag] = useState(data?.twitterHashtag || "");
+  const [urlHashtag, setUrlHashtag] = useState(data?.twitterHastagUrl || "");
 
   useEffect(() => {
     if (resetQuest) {
@@ -84,6 +85,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
     if (activeTwitter.Retweet && !retweet) return false;
     if (activeTwitter.Like && !like) return false;
     if (activeTwitter.Hashtag && !hashtag) return false;
+    if (activeTwitter.Hashtag && !hashtag && !urlHashtag) return false;
     if (activeTemplate.TokenHolder && !tokenHolder.minimumAmount) return false;
     if (activeTemplate.TransactionActivity && !transactionActivity.minimumAmount) return false;
     return true;
@@ -97,6 +99,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
         twitterRetweet: retweet,
         twitterLike: like,
         twitterHashtag: hashtag,
+        twitterHashtagUrl: urlHashtag,
         tokenHolder: tokenHolder,
         transactionActivity: transactionActivity,
       });
@@ -206,8 +209,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
         {activeTwitter.Hashtag || data?.twitterHashtag ? (
           <HashTag
             setHashtag={setHashtag}
+            setUrlHashtag={setUrlHashtag}
             setActionTwitter={setActionTwitter}
             value={hashtag}
+            urlHashtag={urlHashtag}
             isDisable={handleCheckDisable()}
           />
         ) : (
