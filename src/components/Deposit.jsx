@@ -62,26 +62,26 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
     return true;
   };
 
-  const handleDepositPhala = async () => {
-    const signer = await getSigner(account);
-    contract.tx.deposit({}).signAndSend(account.address, { signer }, (status) => {
-      if (status.isInBlock) {
-        setIsLoading(false);
-        notifySuccess("Deposit Successfully!");
-        if (param?.id) {
-          callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true);
-        } else {
-          callApiCreate(valueSetup, valueQuest, valueReward, true);
-        }
-        //call api
-        setValue("Leaderboard");
-        dispatch(setStateDeposit(true));
-        dispatch(setStateLeaderboard(true));
-      } else {
-        setIsLoading(true);
-      }
-    });
-  };
+  // const handleDepositPhala = async () => {
+  //   const signer = await getSigner(account);
+  //   contract.tx.deposit({}).signAndSend(account.address, { signer }, (status) => {
+  //     if (status.isInBlock) {
+  //       setIsLoading(false);
+  //       notifySuccess("Deposit Successfully!");
+  //       if (param?.id) {
+  //         callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true);
+  //       } else {
+  //         callApiCreate(valueSetup, valueQuest, valueReward, true);
+  //       }
+  //       //call api
+  //       setValue("Leaderboard");
+  //       dispatch(setStateDeposit(true));
+  //       dispatch(setStateLeaderboard(true));
+  //     } else {
+  //       setIsLoading(true);
+  //     }
+  //   });
+  // };
 
   const handleDeposit = async () => {
     if (valueReward?.network === "Astar") {
@@ -108,6 +108,7 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
     if (U.isInBlock(depositOption[valueReward?.network] || alpheDeposit)) {
       setIsFlagDeposit(true);
       if (!param?.id) {
+        console.log("create");
         const create = async () => {
           try {
             const res = await callApiCreate(valueSetup, valueQuest, valueReward, true, setValue);
@@ -125,6 +126,7 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
         };
         create();
       } else {
+        console.log("update");
         const create = async () => {
           try {
             const res = await callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true, setValue);
@@ -137,7 +139,7 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
               dispatch(setStateLeaderboard(true));
             }
           } catch (error) {
-            notifyError(error?.response?.data?.message?.name[0]);
+            notifyError("Update campaign Failed");
           }
         };
         create();

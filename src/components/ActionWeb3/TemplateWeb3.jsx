@@ -13,7 +13,7 @@ export const NetWorks = [
   },
   {
     icon: Astar,
-    network: "Phala",
+    network: "Astar",
   },
 ];
 

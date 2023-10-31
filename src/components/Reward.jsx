@@ -13,8 +13,8 @@ import { Nft, Token } from "../asset/img";
 
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
-  const [network, setNetwork] = useState(data?.network || "Phala");
-  const [categoryToken, setCategoryToken] = useState(data?.categoryToken || "PHA");
+  const [network, setNetwork] = useState(data?.network || "Aleph Zero");
+  const [categoryToken, setCategoryToken] = useState(data?.categoryToken || "AZERO");
   const [totalReward, setTotalReward] = useState(data?.totalReward || "");
   const [numberWinner, setNumberWinner] = useState(data?.numberWinner || 1);
   const { stateReward, resetReward } = useSelector((state) => state.stateCampaign);
@@ -38,8 +38,8 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
   useEffect(() => {
     if (resetReward) {
       setRewardType("Token");
-      setNetwork("Phala");
-      setCategoryToken("PHA");
+      setNetwork("Aleph Zero");
+      setCategoryToken("AZERO");
       setTotalReward("");
       setNumberWinner(1);
     }
