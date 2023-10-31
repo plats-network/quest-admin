@@ -11,7 +11,8 @@ const campaignSlice = createSlice({
     resetReward: false,
     saveSuccess: false,
     contract: null,
-    account: null
+    account: null,
+    token: ""
   },
   reducers: {
     setStateSetup: (state, action) => {
@@ -44,8 +45,11 @@ const campaignSlice = createSlice({
       },
       setAccount: (state, action) => {
         // state.account = action.payload
+      },
+      setToken: (state, action) => {
+        state.token = action.payload
       }
   },
 });
-export const { setStateDeposit, setStateQuest, setStateReward, setStateSetup, setStateLeaderboard, setResetQuest, setResetReward, setSaveSuccess, setContract, setAccount} = campaignSlice.actions;
+export const { setStateDeposit, setStateQuest, setStateReward, setStateSetup, setStateLeaderboard, setResetQuest, setResetReward, setSaveSuccess, setContract, setAccount, setToken} = campaignSlice.actions;
 export default campaignSlice.reducer;

@@ -41,14 +41,15 @@ function Home() {
             <img className="w-[400px] h-[300px] -ml-[120px] -mt-[50px] object-cover" src={Banner} alt="banner" />
           </div>
           <div className="flex items-center gap-4 md:gap-10 mt-10">
-            <button
-              onClick={() => (window.location.href = "https://plats-quest.vaix.group/")}
+            <a
+              href="https://plats-quest.vaix.group/"
+              target="_blank"
               className="btnGradient1 cursor-pointer py-2 px-4 md:py-4 md:px-10 rounded-lg text-[16px] md:text-[20px] font-normal md:font-bold text-white"
             >
               {" "}
               {isModal && <ModalWallet setIsModal={setIsModal} />}
               Start Earning
-            </button>
+            </a>
             <button
               onClick={handleConnect}
               className="btnGradient2 cursor-pointer py-2 px-4 md:py-4 md:px-10 rounded-lg text-[16px] md:text-[20px] font-normal md:font-bold text-white"

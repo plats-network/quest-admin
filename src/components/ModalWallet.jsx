@@ -5,6 +5,7 @@ import { hocApiPost } from "../services/api-connect-wallet";
 import { setCurrentAccount } from "../redux/accountSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "../redux/stateCampaign";
 
 export const ModalWallet = ({ setIsModal }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export const ModalWallet = ({ setIsModal }) => {
       try {
         hocApiPost(routes.authentication.walletRegister, body)().then((res) => {
           localStorage.setItem("token", res.data.token);
+          dispatch(setToken(res.data.token));
         });
         hocApiPost(routes.authentication.walletLogin, body)();
         navigate("/campaign");

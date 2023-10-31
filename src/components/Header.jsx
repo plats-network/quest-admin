@@ -1,7 +1,7 @@
 import { LogoQuest } from "../asset/img";
 import { Button } from "antd";
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ModalWallet } from "./ModalWallet";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,9 @@ function Header() {
   const buttonAlert = () => {
     if (!currentAccount) {
       setIsModal(true);
+    } else {
+      localStorage.clear();
+      window.location.href = "/";
     }
   };
   const navigate = useNavigate();
@@ -62,6 +65,7 @@ function Header() {
               className="rounded-full bg-[#B575AB] text-white text-[12px] md:text-[18px] font-semibold px-4 py-2 md:px-8 md:py-6 flex items-center border-none outline-none !hover:"
             >
               {currentAccount && `${currentAccount.slice(0, 6)}...${currentAccount.slice(-6)}`}
+              {currentAccount && <FaSignOutAlt className="ml-2" size={22} />}
             </Button>
           </div>
         </div>
