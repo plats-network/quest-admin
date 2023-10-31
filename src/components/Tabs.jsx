@@ -18,6 +18,12 @@ function Tabs() {
   const [isDeposit, setIsDeposit] = useState(false);
   const param = useParams();
 
+  const networkOptions = {
+    aleph: "Aleph Zero",
+    astar: "Astar",
+    phala: "Phala",
+  };
+
   useEffect(() => {
     const fetch = async () => {
       let twitterFollow = null;
@@ -32,7 +38,7 @@ function Tabs() {
         tasks?.forEach((item) => {
           if (item?.entry_type === "TRANSFER_ACTIVITY") {
             transactionActivity = {
-              network: item?.block_chain_network,
+              network: networkOptions[item?.block_chain_network],
               categoryToken: item?.category_token,
               minimumAmount: item?.total_token,
             };
@@ -40,7 +46,7 @@ function Tabs() {
 
           if (item?.entry_type === "TOKEN_HOLDERS") {
             tokenHolder = {
-              network: item?.block_chain_network,
+              network: networkOptions[item?.block_chain_network],
               categoryToken: item?.category_token,
               minimumAmount: item?.total_token,
             };

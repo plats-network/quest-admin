@@ -50,13 +50,13 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
       setLike();
       setHashtag();
       setTokenHolder({
-        network: "Phala",
-        categoryToken: "PHA",
+        network: "Aleph Zero",
+        categoryToken: "AZERO",
         minimumAmount: "",
       });
       setTransactionActivity({
-        network: "Phala",
-        categoryToken: "PHA",
+        network: "Aleph Zero",
+        categoryToken: "AZERO",
         minimumAmount: "",
       });
       dispatch(setResetQuest(false));
@@ -65,16 +65,16 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
 
   const [tokenHolder, setTokenHolder] = useState(
     data?.tokenHolder || {
-      network: "Phala",
-      categoryToken: "PHA",
+      network: "Aleph Zero",
+      categoryToken: "AZERO",
       minimumAmount: "",
     }
   );
 
   const [transactionActivity, setTransactionActivity] = useState(
     data?.transactionActivity || {
-      network: "Phala",
-      categoryToken: "PHA",
+      network: "Aleph Zero",
+      categoryToken: "AZERO",
       minimumAmount: "",
     }
   );

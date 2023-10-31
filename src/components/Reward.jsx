@@ -9,6 +9,7 @@ import { setResetReward, setSaveSuccess, setStateReward } from "../redux/stateCa
 import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
+import { Nft, Token } from "../asset/img";
 
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
@@ -22,6 +23,17 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const rewardOptions = [
+    {
+      icon: Token,
+      value: "Token",
+    },
+    {
+      icon: Nft,
+      value: "NFT",
+    },
+  ];
 
   useEffect(() => {
     if (resetReward) {
@@ -44,7 +56,6 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
         numberWinner,
       });
       setValue("Deposit");
-      console.log("ok");
       dispatch(setStateReward(true));
     } else {
       notifyError("Please complete all information !");
@@ -103,8 +114,10 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
     setNetwork(value);
     if (value === "Phala") {
       setCategoryToken("PHA");
-    } else {
+    } else if (value === "Aleph Zero") {
       setCategoryToken("AZERO");
+    } else {
+      setCategoryToken("ASTR");
     }
   };
   return (
@@ -143,11 +156,20 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
               className="w-full h-[40px] md:!h-[54px]"
               size="middle"
               onChange={setRewardType}
-              options={[
-                { value: "Token", label: "Token" },
-                { value: "NFT", label: "NFT" },
-              ]}
-            />
+            >
+              {rewardOptions.map((item) => (
+                <Select.Option key={item.value} value={item.value} label={item.network}>
+                  <div className="text-[14px] md:text-[18px] flex items-center">
+                    <img
+                      className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
+                      src={item.icon}
+                      alt="icon"
+                    />
+                    <p className="text-white">{item.value}</p>
+                  </div>
+                </Select.Option>
+              ))}
+            </Select>
           </div>
 
           <div className="w-full">

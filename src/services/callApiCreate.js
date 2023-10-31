@@ -1,14 +1,19 @@
 import { routes } from "../routes";
+import { notifyError, notifySuccess } from "../utils/toastify";
 import { instanceAxios } from "./api-connect-wallet";
 import dayjs from 'dayjs'
 
-export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
-    console.log({valueSetup});
+const Network = {
+    "Aleph Zero": "aleph",
+    "Phala": "phala",
+    "Astar": "astar"
+}
+export const callApiCreate = async (valueSetup, valueQuest, valueReward, status, setValue) => {
     const tasks = [];
     if (valueQuest?.tokenHolder?.minimumAmount) {
         tasks.push({
             name: "Token Holder",
-            block_chain_network: valueQuest?.tokenHolder?.network,
+            block_chain_network:Network[valueQuest?.transactionActivity?.network],
             total_token: valueQuest?.tokenHolder?.minimumAmount,
             category_token: valueQuest?.tokenHolder?.categoryToken,
             status: "Active",
@@ -18,7 +23,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status)
     if (valueQuest?.transactionActivity?.minimumAmount) {
         tasks.push({
             name: "Token Holder",
-            block_chain_network: valueQuest?.transactionActivity?.network,
+            block_chain_network: Network[valueQuest?.transactionActivity?.network],
             total_token: valueQuest?.transactionActivity?.minimumAmount,
             category_token: valueQuest?.transactionActivity?.categoryToken,
             status: "Active",
@@ -72,8 +77,9 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status)
         tasks
     }
 
-    const res = await instanceAxios.post(routes.quest.createCampaign, body)
-    return res;
+
+        const res = await instanceAxios.post(routes.quest.createCampaign, body)
+        return res;
 }
 
 
@@ -82,7 +88,7 @@ export const callApiUpdate = async (id,valueSetup, valueQuest, valueReward, stat
     if (valueQuest?.tokenHolder?.minimumAmount) {
         tasks.push({
             name: "Token Holder",
-            block_chain_network: valueQuest?.tokenHolder?.network,
+            block_chain_network: Network[valueQuest?.tokenHolder?.network],
             total_token: valueQuest?.tokenHolder?.minimumAmount,
             category_token: valueQuest?.tokenHolder?.categoryToken,
             status: "Active",
@@ -92,7 +98,7 @@ export const callApiUpdate = async (id,valueSetup, valueQuest, valueReward, stat
     if (valueQuest?.transactionActivity?.minimumAmount) {
         tasks.push({
             name: "Token Holder",
-            block_chain_network: valueQuest?.transactionActivity?.network,
+            block_chain_network: Network[valueQuest?.transactionActivity?.network],
             total_token: valueQuest?.transactionActivity?.minimumAmount,
             category_token: valueQuest?.transactionActivity?.categoryToken,
             status: "Active",
@@ -138,7 +144,7 @@ export const callApiUpdate = async (id,valueSetup, valueQuest, valueReward, stat
         end_at: dayjs(valueSetup?.endDate).format('YYYY-MM-DDTHH:mm:ss'),
         thumbnail: valueSetup?.base64Thumbnail,
         reward_type: valueReward?.rewardType,
-        block_chain_network: valueReward?.network,
+        block_chain_network: Network[valueReward?.network],
         category_token: valueReward?.categoryToken,
         total_token: valueReward?.totalReward,
         total_person: valueReward?.numberWinner,
@@ -147,5 +153,6 @@ export const callApiUpdate = async (id,valueSetup, valueQuest, valueReward, stat
     }
 
     const res = await instanceAxios.patch(routes.quest.updateDetailCampaign(id), body)
+    console.log("res: ", res.data);
     return res;
 }

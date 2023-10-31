@@ -40,10 +40,10 @@ const campaignSlice = createSlice({
         state.saveSuccess = action.payload
       },
       setContract: (state, action) => {
-        state.contract = action.payload
+        // state.contract = action.payload
       },
       setAccount: (state, action) => {
-        state.account = action.payload
+        // state.account = action.payload
       }
   },
 });

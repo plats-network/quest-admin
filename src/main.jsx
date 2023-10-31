@@ -7,14 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import store from "./redux/index";
 
-import { AlephTestnet, PhalaTestnet } from "useink/chains";
+import { AlephTestnet, PhalaTestnet, ShibuyaTestnet } from "useink/chains";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <UseInkProvider
     config={{
       dappName: "Flipper",
-      chains: [AlephTestnet, PhalaTestnet],
+      chains: [AlephTestnet, PhalaTestnet, ShibuyaTestnet],
     }}
   >
     <ConfigProvider
