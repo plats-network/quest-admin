@@ -1,5 +1,5 @@
 import { Input, Select } from "antd";
-import { Aleph, Phala } from "../../asset/img";
+import { Aleph, Astar, Phala } from "../../asset/img";
 import { FaWindowClose } from "react-icons/fa";
 
 export const NetWorks = [
@@ -9,6 +9,10 @@ export const NetWorks = [
   },
   {
     icon: Phala,
+    network: "Phala",
+  },
+  {
+    icon: Astar,
     network: "Phala",
   },
 ];
@@ -21,6 +25,10 @@ export const Tokens = [
   {
     icon: Phala,
     token: "PHA",
+  },
+  {
+    icon: Astar,
+    token: "ASTR",
   },
 ];
 
