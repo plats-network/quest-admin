@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 
 const Network = {
     "Aleph Zero": "aleph",
-    "Phala": "phala",
     "Astar": "astar"
 }
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status, setValue) => {
@@ -33,7 +32,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter Follow",
             entry_type: "TWITTER_FOLLOW",
-            value: `https://twitter.com/${valueQuest?.twitterFollow}`,
+            value: valueQuest?.twitterFollow,
             status : "Active"
         })
     }
@@ -41,7 +40,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter Like",
             entry_type: "TWITTER_LIKE",
-            value: `https://twitter.com/${valueQuest?.twitterLike}`,
+            value: valueQuest?.twitterLike,
             status : "Active"
         })
     }
@@ -49,7 +48,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter Retweet",
             entry_type: "TWITTER_RETWEET",
-            value: `https://twitter.com/${valueQuest?.twitterRetweet}`,
+            value: valueQuest?.twitterRetweet,
             status : "Active"
         })
     }
@@ -58,7 +57,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
             name: "Twitter HashTag",
             entry_type: "TWITTER_HASHTAG",
             hash_tag: valueQuest?.twitterHashtag,
-            value: `https://twitter.com/${valueQuest?.twitterHashtagUrl}`,
+            value: valueQuest?.twitterHashtagUrl,
             status : "Active"
         })
     }

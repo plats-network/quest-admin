@@ -57,7 +57,7 @@ function Tabs() {
       let twitterLike = null;
       let twitterRetweet = null;
       let twitterHashtag = null;
-      let twitterHastagUrl = null;
+      let twitterHashtagUrl = null;
       let tokenHolder = null;
       let transactionActivity = null;
       try {
@@ -90,8 +90,8 @@ function Tabs() {
             twitterFollow = item?.value;
           }
           if (item?.entry_type === "TWITTER_HASHTAG") {
-            twitterHashtag = item?.value;
-            twitterHastagUrl = item.hash_tag;
+            twitterHashtag = item?.hash_tag;
+            twitterHashtagUrl = item?.value;
           }
         });
         setValueSetup({
@@ -107,7 +107,7 @@ function Tabs() {
           twitterRetweet,
           twitterLike,
           twitterHashtag,
-          twitterHastagUrl,
+          twitterHashtagUrl,
           tokenHolder,
           transactionActivity,
           status: data?.status,
@@ -203,7 +203,7 @@ function Tabs() {
           })}
         </ul>
       </div>
-      {Options[value]}
+      <div className="transition-all duration-500">{Options[value]}</div>
     </>
   );
 }

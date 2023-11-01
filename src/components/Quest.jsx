@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
-import { validateQuest } from "../utils/validateQuest";
+import { validateTaskQuest } from "../utils/validateQuest";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
@@ -44,7 +44,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
   const [like, setLike] = useState(data?.twitterLike || "");
   const [hashtag, setHashtag] = useState(data?.twitterHashtag || "");
   const [urlHashtag, setUrlHashtag] = useState(data?.twitterHashtagUrl || "");
-
+  console.log({ urlHashtag });
   useEffect(() => {
     if (resetQuest) {
       setFollow();
@@ -94,8 +94,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
 
   const handleNext = () => {
     const res = checkAllowedNext();
-    // const check = validateQuest(follow, retweet, like, hashtag, urlHashtag);
-    // if (!check) return;
+    const check = validateTaskQuest(activeTwitter, follow, retweet, like, urlHashtag, hashtag);
+    if (!check) return;
     if (res) {
       setValueQuest({
         twitterFollow: follow,
