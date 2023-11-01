@@ -14,12 +14,12 @@ import { useSelector } from "react-redux";
 import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
+import { validateQuest } from "../utils/validateQuest";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
 
 function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
-  console.log({ data });
   const isDetail = useLocation().pathname.includes("detail");
   const countRef = useRef(1);
   const navigate = useNavigate();
@@ -94,6 +94,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
 
   const handleNext = () => {
     const res = checkAllowedNext();
+    // const check = validateQuest(follow, retweet, like, hashtag, urlHashtag);
+    // if (!check) return;
     if (res) {
       setValueQuest({
         twitterFollow: follow,

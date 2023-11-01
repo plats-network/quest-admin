@@ -188,7 +188,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
           </div>
         </div>
         <div className="w-full mt-4 relative">
-          <label className="block heading">Upload Thumnail</label>
+          <label className="block heading">Upload Thumbnail</label>
           <div
             style={{ userSelect: "none" }}
             disabled

@@ -31,7 +31,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     },
     {
       icon: Nft,
-      value: "NFT",
+      value: "NFT (Comming Soon)",
     },
   ];
 
@@ -161,7 +161,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
               onChange={setRewardType}
             >
               {rewardOptions.map((item) => (
-                <Select.Option disabled={item.value === "NFT"} key={item.value} value={item.value}>
+                <Select.Option disabled={item.value.includes("NFT")} key={item.value} value={item.value}>
                   <div className="text-[14px] md:text-[18px] flex items-center">
                     <img
                       className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
@@ -202,6 +202,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         <div className="mt-2 md:mt-5">
           <label className="heading">Total Reward</label>
           <Input
+            type="number"
             disabled={handleCheckDisable()}
             value={totalReward}
             onChange={(e) => {

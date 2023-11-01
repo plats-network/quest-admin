@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "antd";
 import { FaWindowClose } from "react-icons/fa";
 
-function Like({ setLike, setActionTwitter, value, isDisable }) {
+function Like({ setLike, setActionTwitter, value, isDisable, isValidate }) {
   return (
     <div className="borderBlue rounded-lg p-2 md:py-4 md:px-6 mb-4, relative">
       <h1 className="text-[16px] md:text-[24px] font-semibold text-white">Twitter Like</h1>
@@ -14,9 +14,10 @@ function Like({ setLike, setActionTwitter, value, isDisable }) {
           disabled={isDisable}
           value={value || ""}
           onChange={(e) => setLike(e.target.value)}
-          addonBefore="https://twitter.com/"
-          className="leading-[50px] placeholder:text-white"
+          className="leading-[50px] placeholder:text-white placeholder:opacity-40"
+          placeholder="https://twitter.com/..."
         />
+        {isValidate && <p className="text-red-600 mt-1">Please enter the correct twitter follow field format</p>}
       </div>
       <div
         onClick={() => setActionTwitter((prev) => ({ ...prev, Like: !prev.Like }))}

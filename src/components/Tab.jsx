@@ -6,7 +6,6 @@ import { checkValueQuest } from "../utils/checkTickQuest";
 import { useState } from "react";
 
 function Tab({ order, name, isActive, value, setValue, valueSetup, valueQuest, valueReward, isSuccess }) {
-  console.log({ value, name });
   const { stateSetup, stateQuest, stateDeposit, stateReward, stateLeaderboard } = useSelector(
     (state) => state.stateCampaign
   );
@@ -59,7 +58,6 @@ function Tab({ order, name, isActive, value, setValue, valueSetup, valueQuest, v
       ) : (
         // màn create
         <div>
-          {console.log("hello")}
           {name === "Setup" && stateSetup && <FaCheckCircle className="text-green-500" />}
           {name === "Quest" && stateQuest && <FaCheckCircle className="text-green-500" />}
           {name === "Reward" && stateReward && <FaCheckCircle className="text-green-500" />}

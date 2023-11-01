@@ -27,7 +27,7 @@ function HashTag({ setHashtag, setActionTwitter, value, isDisable, urlHashtag, s
           value={urlHashtag || ""}
           onChange={(e) => setUrlHashtag(e.target.value)}
           className="leading-[50px] placeholder:text-[18px] placeholder:text-white placeholder:opacity-40"
-          addonBefore="https://twitter.com/"
+          placeholder="https://twitter.com/..."
         />
       </div>
       <div

@@ -14,11 +14,12 @@ function Follow({ setFollow, setActionTwitter, value, isDisable }) {
           User Name
         </label>
         <Input
+          className="placeholder:text-white placeholder:opacity-40"
           disabled={isDisable}
           value={value || ""}
           onChange={(e) => setFollow(e.target.value)}
           id="follow"
-          addonBefore="https://twitter.com/"
+          placeholder="https://twitter.com/..."
         />
       </div>
       <div
