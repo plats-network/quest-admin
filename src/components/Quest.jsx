@@ -44,7 +44,6 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
   const [like, setLike] = useState(data?.twitterLike || "");
   const [hashtag, setHashtag] = useState(data?.twitterHashtag || "");
   const [urlHashtag, setUrlHashtag] = useState(data?.twitterHashtagUrl || "");
-  console.log({ urlHashtag });
   useEffect(() => {
     if (resetQuest) {
       setFollow();
@@ -127,6 +126,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
       notifyError("Please connect wallet first");
       return;
     }
+    const check = validateTaskQuest(activeTwitter, follow, retweet, like, urlHashtag, hashtag);
+    if (!check) return;
     try {
       const res = await callApiCreate(valueSetup, {
         twitterFollow: follow,
@@ -136,7 +137,6 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
         tokenHolder: tokenHolder,
         transactionActivity: transactionActivity,
       });
-
       if (res.data.status === "success") {
         navigate("/campaign");
         dispatch(setSaveSuccess(true));
