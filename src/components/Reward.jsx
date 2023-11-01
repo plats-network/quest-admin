@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { notifyError } from "../utils/toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setResetReward, setSaveSuccess, setStateReward } from "../redux/stateCampaign";
+import { setIsSave, setResetReward, setSaveSuccess, setStateReward } from "../redux/stateCampaign";
 import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
 import { Nft, Token } from "../asset/img";
 
-function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
+function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
   const [network, setNetwork] = useState(data?.network || "Aleph Zero");
   const [categoryToken, setCategoryToken] = useState(data?.categoryToken || "AZERO");
@@ -56,16 +56,19 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
         numberWinner,
       });
       setValue("Deposit");
+      onActive((prev) => {
+        const quest = prev[3];
+        quest.isActive = true;
+        return prev;
+      });
       dispatch(setStateReward(true));
     } else {
       notifyError("Please complete all information !");
     }
   };
 
-  const handleReset = () => {
-    setValueReward("");
+  const handleCreateEdit = () => {
     dispatch(setStateReward(false));
-    dispatch(setResetReward(true));
   };
 
   const handleSave = async () => {
@@ -158,7 +161,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
               onChange={setRewardType}
             >
               {rewardOptions.map((item) => (
-                <Select.Option key={item.value} value={item.value} label={item.network}>
+                <Select.Option disabled={item.value === "NFT"} key={item.value} value={item.value}>
                   <div className="text-[14px] md:text-[18px] flex items-center">
                     <img
                       className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
@@ -201,7 +204,10 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
           <Input
             disabled={handleCheckDisable()}
             value={totalReward}
-            onChange={(e) => setTotalReward(e.target.value)}
+            onChange={(e) => {
+              dispatch(setIsSave(true));
+              setTotalReward(e.target.value);
+            }}
             placeholder="0"
             className="!leading-9 md:!leading-[50px] placeholder:text-[18px] text-[18px] placeholder:text-white placeholder:opacity-40"
           />
@@ -243,10 +249,10 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data }) {
           {" "}
           <button
             style={{ display: !stateReward ? "none" : "" }}
-            onClick={handleReset}
+            onClick={handleCreateEdit}
             className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
           >
-            Reset
+            Edit
           </button>
           <div className="flex items-center justify-center gap-4 md:gap-8 mt-5">
             <button

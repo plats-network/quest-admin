@@ -15,7 +15,7 @@ function Retweet({ setRetweet, setActionTwitter, value, isDisable }) {
           disabled={isDisable}
           value={value || ""}
           onChange={(e) => setRetweet(e.target.value)}
-          placeholder="https://twitter.com/intent/tweet"
+          addonBefore="https://twitter.com/"
           className="placeholder:text-white placeholder:opacity-40"
         />
       </div>

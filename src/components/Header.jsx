@@ -36,6 +36,11 @@ function Header() {
     dispatch(setStateLeaderboard(false));
     navigate("/campaign/create");
   };
+
+  const handleClick = () => {
+    navigate("/campaign");
+  };
+
   return (
     <>
       <header className="px-2 md:px-8 py-2 md:py-2 mx-auto max-w-screen-2xl border-2 border-[#0802A3] mt-2 md:mt-4 rounded-[48px] bg-[#27005D] bg-opacity-60">
@@ -47,7 +52,7 @@ function Header() {
               </a>
             </div>
             <div
-              onClick={() => navigate("/campaign")}
+              onClick={handleClick}
               className="hidden md:flex text-[24px] font-semibold text-white cursor-pointer hover:text-yellow-500"
             >
               Campaign
@@ -58,7 +63,7 @@ function Header() {
               onClick={handleCreateCampaign}
               className="rounded-full bg-[#279EFF] text-white text-[12px] md:text-[18px] font-semibold py-4 md:px-8 md:py-6 flex items-center border-none outline-none hover:bg-none"
             >
-              <FaPlus className="mr-2" /> Create Campaign
+              <FaPlus className="mr-2 hidden md:block" /> Create Campaign
             </Button>
             <Button
               onClick={() => buttonAlert()}

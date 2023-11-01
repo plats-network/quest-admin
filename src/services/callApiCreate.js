@@ -1,5 +1,4 @@
 import { routes } from "../routes";
-import { notifyError, notifySuccess } from "../utils/toastify";
 import { instanceAxios } from "./api-connect-wallet";
 import dayjs from 'dayjs'
 
@@ -34,7 +33,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter Follow",
             entry_type: "TWITTER_FOLLOW",
-            value: valueQuest?.twitterFollow,
+            value: `https://twitter.com/${valueQuest?.twitterFollow}`,
             status : "Active"
         })
     }
@@ -42,7 +41,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter Like",
             entry_type: "TWITTER_LIKE",
-            value: valueQuest?.twitterLike,
+            value: `https://twitter.com/${valueQuest?.twitterLike}`,
             status : "Active"
         })
     }
@@ -50,7 +49,7 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter Retweet",
             entry_type: "TWITTER_RETWEET",
-            value: valueQuest?.twitterRetweet,
+            value: `https://twitter.com/${valueQuest?.twitterRetweet}`,
             status : "Active"
         })
     }
@@ -58,8 +57,8 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status,
         tasks.push({
             name: "Twitter HashTag",
             entry_type: "TWITTER_HASHTAG",
-            value: valueQuest?.twitterHashtag,
-            hash_tag: valueQuest?.twitterHashtagUrl,
+            hash_tag: valueQuest?.twitterHashtag,
+            value: `https://twitter.com/${valueQuest?.twitterHashtagUrl}`,
             status : "Active"
         })
     }
@@ -154,6 +153,5 @@ export const callApiUpdate = async (id,valueSetup, valueQuest, valueReward, stat
     }
 
     const res = await instanceAxios.patch(routes.quest.updateDetailCampaign(id), body)
-    console.log("res: ", res.data);
     return res;
 }

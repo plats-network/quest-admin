@@ -3,7 +3,6 @@ import { Input } from "antd";
 import { FaWindowClose } from "react-icons/fa";
 
 function HashTag({ setHashtag, setActionTwitter, value, isDisable, urlHashtag, setUrlHashtag }) {
-  console.log({ urlHashtag });
   return (
     <div className="borderBlue rounded-lg p-2 md:py-4 md:px-6 mb-4 relative">
       <h1 className="text-[16px] md:text-[24px] font-semibold text-white">Twitter Hashtag</h1>
@@ -28,7 +27,7 @@ function HashTag({ setHashtag, setActionTwitter, value, isDisable, urlHashtag, s
           value={urlHashtag || ""}
           onChange={(e) => setUrlHashtag(e.target.value)}
           className="leading-[50px] placeholder:text-[18px] placeholder:text-white placeholder:opacity-40"
-          placeholder="url"
+          addonBefore="https://twitter.com/"
         />
       </div>
       <div

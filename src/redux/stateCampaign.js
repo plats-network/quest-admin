@@ -12,7 +12,8 @@ const campaignSlice = createSlice({
     saveSuccess: false,
     contract: null,
     account: null,
-    token: ""
+    token: "",
+    isSave: false // dùng để check có disable nút save ở màn deposit ở trong màn detail
   },
   reducers: {
     setStateSetup: (state, action) => {
@@ -40,16 +41,14 @@ const campaignSlice = createSlice({
       setSaveSuccess: (state, action) => {
         state.saveSuccess = action.payload
       },
-      setContract: (state, action) => {
-        // state.contract = action.payload
-      },
-      setAccount: (state, action) => {
-        // state.account = action.payload
-      },
       setToken: (state, action) => {
         state.token = action.payload
+      },
+      setIsSave: (state, action) => {
+        state.isSave = action.payload
       }
+
   },
 });
-export const { setStateDeposit, setStateQuest, setStateReward, setStateSetup, setStateLeaderboard, setResetQuest, setResetReward, setSaveSuccess, setContract, setAccount, setToken} = campaignSlice.actions;
+export const { setStateDeposit, setStateQuest, setStateReward, setStateSetup, setStateLeaderboard, setResetQuest, setResetReward, setSaveSuccess, setContract, setAccount, setToken, setIsSave} = campaignSlice.actions;
 export default campaignSlice.reducer;

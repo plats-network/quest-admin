@@ -63,6 +63,7 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
     setValueReward();
     setValueSetup();
     setValue("Setup");
+    navigate("/campaign/create");
   };
 
   const handleGoCampaign = () => {

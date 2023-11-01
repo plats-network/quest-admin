@@ -8,10 +8,6 @@ export const NetWorks = [
     network: "Aleph Zero",
   },
   {
-    icon: Phala,
-    network: "Phala",
-  },
-  {
     icon: Astar,
     network: "Astar",
   },
@@ -21,10 +17,6 @@ export const Tokens = [
   {
     icon: Aleph,
     token: "AZERO",
-  },
-  {
-    icon: Phala,
-    token: "PHA",
   },
   {
     icon: Astar,
@@ -45,6 +37,12 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
         network: value,
       };
     });
+    if (value === "Astar") {
+      handleChangeToken("ASTR");
+    }
+    if (value === "Aleph Zero") {
+      handleChangeToken("AZERO");
+    }
   };
 
   const handleChangeToken = (value) => {
@@ -98,8 +96,9 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
             disabled={isDisable}
             className="w-full h-[40px] md:!h-[54px] !text-[130px] placeholder:text[20px]"
             size="large"
+            value={value?.categoryToken}
             defaultValue={value?.categoryToken || "PHA"}
-            onChange={handleChangeToken}
+            // onChange={handleChangeToken}
           >
             {Tokens.map((item) => (
               <Select.Option key={item.token} value={item.network} label={item.network}>
@@ -115,8 +114,8 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
             ))}
           </Select>
         </div>
-        <div className="w-full">
-          <label className="heading">{label}</label>
+        <div className="w-full mt-[1px]">
+          <label className="heading truncate">{label}</label>
           <Input
             disabled={isDisable}
             value={value?.minimumAmount || ""}

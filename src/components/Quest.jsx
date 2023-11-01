@@ -18,7 +18,8 @@ import { checkLogin } from "../utils/checkLogin";
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
 
-function Quest({ setValue, valueSetup, setValueQuest, data }) {
+function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
+  console.log({ data });
   const isDetail = useLocation().pathname.includes("detail");
   const countRef = useRef(1);
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
   const [retweet, setRetweet] = useState(data?.twitterRetweet || "");
   const [like, setLike] = useState(data?.twitterLike || "");
   const [hashtag, setHashtag] = useState(data?.twitterHashtag || "");
-  const [urlHashtag, setUrlHashtag] = useState(data?.twitterHastagUrl || "");
+  const [urlHashtag, setUrlHashtag] = useState(data?.twitterHashtagUrl || "");
 
   useEffect(() => {
     if (resetQuest) {
@@ -104,16 +105,19 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
         transactionActivity: transactionActivity,
       });
       setValue("Reward");
+      onActive((prev) => {
+        const quest = prev[2];
+        quest.isActive = true;
+        return prev;
+      });
       dispatch(setStateQuest(true));
     } else {
       notifyError("Please complete all information !");
     }
   };
 
-  const handleReset = () => {
-    setValueQuest("");
+  const handleCreateEdit = () => {
     dispatch(setStateQuest(false));
-    dispatch(setResetQuest(true));
   };
 
   const handleSave = async () => {
@@ -257,10 +261,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data }) {
         <div>
           <button
             style={{ display: !stateQuest ? "none" : "" }}
-            onClick={handleReset}
+            onClick={handleCreateEdit}
             className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
           >
-            Reset
+            Edit
           </button>
 
           <div className="flex items-center justify-center gap-4 md:gap-8">

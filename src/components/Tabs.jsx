@@ -4,11 +4,12 @@ import Reward from "./Reward";
 import Quest from "./Quest";
 import Deposit from "./Deposit";
 import Leaderboard from "./Leaderboard";
-import { Segmented } from "antd";
-import { ListTabs } from "../utils/listTabs";
 import { useParams } from "react-router-dom";
 import { routes } from "../routes";
 import { instanceAxios } from "../services/api-connect-wallet";
+import Tab from "./Tab";
+import { listTabs } from "../utils/listTabs";
+import { networkOptions } from "../utils/network";
 
 function Tabs() {
   const [value, setValue] = useState("Setup");
@@ -18,11 +19,37 @@ function Tabs() {
   const [isDeposit, setIsDeposit] = useState(false);
   const param = useParams();
 
-  const networkOptions = {
-    aleph: "Aleph Zero",
-    astar: "Astar",
-    phala: "Phala",
-  };
+  const [data, setData] = useState([...listTabs]);
+
+  useEffect(() => {
+    setData([
+      {
+        name: "Setup",
+        order: 1,
+        isActive: true,
+      },
+      {
+        name: "Quest",
+        order: 2,
+        isActive: false,
+      },
+      {
+        name: "Reward",
+        order: 3,
+        isActive: false,
+      },
+      {
+        name: "Deposit",
+        order: 4,
+        isActive: false,
+      },
+      {
+        name: "Leaderboard",
+        order: 5,
+        isActive: false,
+      },
+    ]);
+  }, []);
 
   useEffect(() => {
     const fetch = async () => {
@@ -103,8 +130,16 @@ function Tabs() {
     }
   }, [param?.id]);
   const Options = {
-    Setup: <Setup setValue={setValue} setValueSetup={setValueSetup} data={valueSetup} />,
-    Quest: <Quest setValue={setValue} valueSetup={valueSetup} setValueQuest={setValueQuest} data={valueQuest} />,
+    Setup: <Setup setValue={setValue} setValueSetup={setValueSetup} data={valueSetup} onActive={setData} />,
+    Quest: (
+      <Quest
+        setValue={setValue}
+        valueSetup={valueSetup}
+        setValueQuest={setValueQuest}
+        data={valueQuest}
+        onActive={setData}
+      />
+    ),
     Reward: (
       <Reward
         setValue={setValue}
@@ -112,6 +147,7 @@ function Tabs() {
         valueQuest={valueQuest}
         setValueReward={setValueReward}
         data={valueReward}
+        onActive={setData}
       />
     ),
     Deposit: (
@@ -123,6 +159,7 @@ function Tabs() {
         valueQuest={valueQuest}
         valueReward={valueReward}
         isDeposit={isDeposit}
+        onActive={setData}
       />
     ),
     Leaderboard: (
@@ -134,6 +171,7 @@ function Tabs() {
         setValueQuest={setValueQuest}
         setValueReward={setValueReward}
         valueReward={valueReward}
+        onActive={setData}
       />
     ),
   };
@@ -147,8 +185,23 @@ function Tabs() {
 
   return (
     <>
-      <div className="w-[50%] pb-4">
-        <Segmented className="" options={ListTabs()} value={value} onChange={setValue} />
+      <div className="w-fit pb-4 px-2">
+        <ul className="flex flex-wrap items-center text-white bg-white rounded-lg overflow-hidden p-[1px]">
+          {data?.map((item, index) => {
+            return (
+              <Tab
+                key={index}
+                {...item}
+                value={value}
+                setValue={setValue}
+                valueSetup={valueSetup}
+                valueQuest={valueQuest}
+                valueReward={valueReward}
+                isSuccess={isDeposit}
+              />
+            );
+          })}
+        </ul>
       </div>
       {Options[value]}
     </>

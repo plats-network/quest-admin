@@ -11,7 +11,7 @@ const DetailQuest = lazy(() => import("./pages/DetailQuest"));
 function App() {
   const { currentAccount } = useSelector((state) => state.stateCampaign);
   return (
-    <Suspense fallback={<div>Loadding...</div>}>
+    <Suspense fallback={<div className="loading-indicator flex items-center justify-center"></div>}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

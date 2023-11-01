@@ -14,6 +14,7 @@ function Like({ setLike, setActionTwitter, value, isDisable }) {
           disabled={isDisable}
           value={value || ""}
           onChange={(e) => setLike(e.target.value)}
+          addonBefore="https://twitter.com/"
           className="leading-[50px] placeholder:text-white"
         />
       </div>

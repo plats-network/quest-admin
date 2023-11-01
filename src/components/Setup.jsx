@@ -13,7 +13,7 @@ import { notifyError } from "../utils/toastify";
 
 const IMAGE_MAX_SIZE = 5000000;
 
-function Setup({ setValue, setValueSetup, data }) {
+function Setup({ setValue, setValueSetup, data, onActive }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isDetail = location.pathname.includes("detail");
@@ -57,7 +57,7 @@ function Setup({ setValue, setValueSetup, data }) {
 
   const { getInputProps, getRootProps } = useDropzone({
     onDrop,
-    accept: "image/*",
+    accept: { "image/*": [".jpeg", ".jpg", ".png", ".webp", ".gif", ".psd", ".svg", ".bmp"] },
     maxSize: IMAGE_MAX_SIZE,
   });
 
@@ -72,6 +72,11 @@ function Setup({ setValue, setValueSetup, data }) {
         urlThumbnail,
       });
       setValue("Quest");
+      onActive((prev) => {
+        const quest = prev[1];
+        quest.isActive = true;
+        return prev;
+      });
       dispatch(setStateSetup(true));
     } else {
       notifyError("Please complete all information !");
@@ -127,6 +132,10 @@ function Setup({ setValue, setValueSetup, data }) {
       }
       return false;
     }
+  };
+
+  const handleCreateEdit = () => {
+    dispatch(setStateSetup(false));
   };
 
   return (
@@ -221,10 +230,10 @@ function Setup({ setValue, setValueSetup, data }) {
         <>
           <button
             style={{ display: !stateSetup ? "none" : "" }}
-            onClick={handleReset}
+            onClick={handleCreateEdit}
             className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
           >
-            Reset
+            Edit
           </button>
 
           <div className="flex items-center justify-center gap-4 md:gap-8 pb-8">
