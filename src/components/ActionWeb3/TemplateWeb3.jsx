@@ -1,5 +1,5 @@
 import { Input, Select } from "antd";
-import { Aleph, Astar } from "../../assets/img";
+import { Aleph, Astar, Dot } from "../../assets/img";
 import { FaWindowClose } from "react-icons/fa";
 
 export const NetWorks = [
@@ -10,6 +10,10 @@ export const NetWorks = [
   {
     icon: Astar,
     network: "Astar",
+  },
+  {
+    icon: Dot,
+    network: "Polkadot",
   },
 ];
 
@@ -22,7 +26,17 @@ export const Tokens = [
     icon: Astar,
     token: "ASTR",
   },
+  {
+    icon: Dot,
+    token: "DOT",
+  },
 ];
+
+const mapNetWorkToken = {
+  Astar: "ASTR",
+  "Aleph Zero": "AZERO",
+  Polkadot: "DOT",
+};
 
 function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, setActiveTemplate, value, isDisable }) {
   const Mapping = {
@@ -37,12 +51,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
         network: value,
       };
     });
-    if (value === "Astar") {
-      handleChangeToken("ASTR");
-    }
-    if (value === "Aleph Zero") {
-      handleChangeToken("AZERO");
-    }
+    handleChangeToken(mapNetWorkToken[value]);
   };
 
   const handleChangeToken = (value) => {
