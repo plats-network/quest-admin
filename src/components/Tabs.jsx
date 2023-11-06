@@ -17,9 +17,16 @@ function Tabs() {
   const [valueQuest, setValueQuest] = useState();
   const [valueReward, setValueReward] = useState();
   const [isDeposit, setIsDeposit] = useState(false);
+  const [timeStart, setTimeStart] = useState();
   const param = useParams();
 
   const [data, setData] = useState([...listTabs]);
+
+  const mappingNetwork = {
+    aleph: "Aleph Zero",
+    astar: "Astar",
+    polkadot: "Polkadot",
+  };
 
   useEffect(() => {
     setData([
@@ -63,6 +70,7 @@ function Tabs() {
       try {
         const { data } = await instanceAxios.get(routes.quest.getDetailCampaign(param.id));
         const tasks = data?.tasks;
+        setTimeStart(data?.start_at);
         tasks?.forEach((item) => {
           if (item?.entry_type === "TRANSFER_ACTIVITY") {
             transactionActivity = {
@@ -113,7 +121,7 @@ function Tabs() {
           status: data?.status,
         });
         setValueReward({
-          network: data?.block_chain_network,
+          network: mappingNetwork[data?.block_chain_network],
           rewardType: data?.reward_type,
           categoryToken: data?.category_token,
           totalReward: data?.total_token,
@@ -138,6 +146,7 @@ function Tabs() {
         setValueQuest={setValueQuest}
         data={valueQuest}
         onActive={setData}
+        timeStart={timeStart}
       />
     ),
     Reward: (
@@ -148,6 +157,8 @@ function Tabs() {
         setValueReward={setValueReward}
         data={valueReward}
         onActive={setData}
+        isDeposit={isDeposit}
+        timeStart={timeStart}
       />
     ),
     Deposit: (
@@ -160,6 +171,7 @@ function Tabs() {
         valueReward={valueReward}
         isDeposit={isDeposit}
         onActive={setData}
+        timeStart={timeStart}
       />
     ),
     Leaderboard: (

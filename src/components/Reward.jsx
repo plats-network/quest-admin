@@ -10,9 +10,16 @@ import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
 import { Nft, Token } from "../assets/img";
-import { handleCheckDisable } from "../utils/handleDisableTask";
+import { handleCheckDisable, handleCheckDisableRewards } from "../utils/handleDisableTask";
+import { checkStartCampaign } from "../utils/checkStartCampaign";
 
-function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive }) {
+const mapNetworkToken = {
+  "Aleph Zero": "AZERO",
+  Astar: "ASTR",
+  Polkadot: "DOT",
+};
+
+function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive, isDeposit, timeStart }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
   const [network, setNetwork] = useState(data?.network || "Aleph Zero");
   const [categoryToken, setCategoryToken] = useState(data?.categoryToken || "AZERO");
@@ -103,13 +110,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
 
   const handleNetwork = (value) => {
     setNetwork(value);
-    if (value === "Phala") {
-      setCategoryToken("PHA");
-    } else if (value === "Aleph Zero") {
-      setCategoryToken("AZERO");
-    } else {
-      setCategoryToken("ASTR");
-    }
+    setCategoryToken(mapNetworkToken[value]);
   };
   return (
     <div className="">
@@ -118,7 +119,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           <div className="w-full">
             <label className="heading">Network</label>
             <Select
-              disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
+              disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="large"
               defaultValue={network}
@@ -143,7 +144,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
             <label className="heading">Reward Type</label>
             <Select
               value={rewardType}
-              disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
+              disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="middle"
               onChange={setRewardType}
@@ -167,7 +168,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
             <label className="heading">Category Token</label>
             <Select
               value={categoryToken}
-              disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
+              disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="large"
               onChange={setCategoryToken}
@@ -191,7 +192,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           <label className="heading">Total Reward</label>
           <Input
             type="number"
-            disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
+            disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
             value={totalReward}
             onChange={(e) => {
               dispatch(setIsSave(true));
@@ -224,7 +225,17 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         </div>
       </div>
       {isDetail ? (
-        data?.status === "Draft" && (
+        data?.status === "Draft" ? (
+          <button
+            onClick={handleEdit}
+            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
+            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
+          >
+            {isEdit ? "Save" : "Edit"}
+          </button>
+        ) : checkStartCampaign(timeStart) ? (
+          ""
+        ) : (
           <button
             onClick={handleEdit}
             style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}

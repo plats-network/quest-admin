@@ -124,6 +124,22 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
     }
   };
 
+  const handleUpdate = async () => {
+    try {
+      const res = await callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true, setValue);
+      if (res.data?.status === "success") {
+        notifySuccess("Update campaign successfully");
+        setTimeout(() => {
+          setValue("Leaderboard");
+        }, 1500);
+        dispatch(setStateDeposit(true));
+        dispatch(setStateLeaderboard(true));
+      }
+    } catch (error) {
+      notifyError("Update campaign Failed");
+    }
+  };
+
   useEffect(() => {
     if (U.isInBlock(depositOption[valueReward?.network] || alpheDeposit)) {
       setIsFlagDeposit(true);
@@ -150,22 +166,7 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
         };
         create();
       } else {
-        const create = async () => {
-          try {
-            const res = await callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true, setValue);
-            if (res.data?.status === "success") {
-              notifySuccess("Update campaign successfully");
-              setTimeout(() => {
-                setValue("Leaderboard");
-              }, 1500);
-              dispatch(setStateDeposit(true));
-              dispatch(setStateLeaderboard(true));
-            }
-          } catch (error) {
-            notifyError("Update campaign Failed");
-          }
-        };
-        create();
+        handleUpdate();
       }
     }
   }, [U.isInBlock(depositOption[valueReward?.network] || alpheDeposit)]);
@@ -186,8 +187,13 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
         to the smartcontact
       </p>
       <ToastContainer />
-      {isDetail && valueSetup?.status === "Active" ? (
-        ""
+      {isDetail && isDeposit ? (
+        <Button
+          onClick={handleUpdate}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center mx-auto"
+        >
+          Update
+        </Button>
       ) : (
         <div className="flex items-center justify-center gap-8">
           <Button
