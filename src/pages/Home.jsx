@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LogoQuest, Banner } from "../asset/img";
+import { LogoQuest, Banner } from "../assets/img";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ModalWallet } from "../components/ModalWallet";

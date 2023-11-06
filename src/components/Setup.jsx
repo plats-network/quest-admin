@@ -5,11 +5,12 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Upload } from "../asset/img";
+import { Upload } from "../assets/img";
 import { setSaveSuccess, setStateSetup } from "../redux/stateCampaign";
 import { callApiCreate } from "../services/callApiCreate";
 import { checkLogin } from "../utils/checkLogin";
 import { notifyError } from "../utils/toastify";
+import { handleCheckDisable } from "../utils/handleDisableTask";
 
 const IMAGE_MAX_SIZE = 5000000;
 
@@ -120,20 +121,6 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
     setUrlThumbnail(data?.urlThumbnail);
   }, [data?.title]);
 
-  const handleCheckDisable = () => {
-    if (isDetail) {
-      if (isEdit) {
-        return false;
-      }
-      return true;
-    } else {
-      if (stateSetup) {
-        return true;
-      }
-      return false;
-    }
-  };
-
   const handleCreateEdit = () => {
     dispatch(setStateSetup(false));
   };
@@ -146,7 +133,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
             Title
           </label>
           <Input
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="!leading-9 md:leading-[50px] placeholder:text-[18px] text-[18px]"
@@ -158,7 +145,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
             Description
           </label>
           <Input.TextArea
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
@@ -169,7 +156,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
           <div className="w-full">
             <label className="block heading">Start Date</label>
             <DatePicker
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
               value={startDate ? dayjs(startDate) : ""}
               onChange={handleStartDate}
               size="large"
@@ -179,7 +166,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
           <div className="w-full">
             <label className="block heading">End Date</label>
             <DatePicker
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
               value={endDate ? dayjs(endDate) : ""}
               onChange={handleEndDate}
               size="large"

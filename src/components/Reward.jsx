@@ -9,7 +9,8 @@ import { setIsSave, setResetReward, setSaveSuccess, setStateReward } from "../re
 import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
-import { Nft, Token } from "../asset/img";
+import { Nft, Token } from "../assets/img";
+import { handleCheckDisable } from "../utils/handleDisableTask";
 
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
@@ -92,19 +93,6 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
       notifyError(error?.response?.data?.message?.name[0]);
     }
   };
-  const handleCheckDisable = () => {
-    if (isDetail) {
-      if (isEdit) {
-        return false;
-      }
-      return true;
-    } else {
-      if (stateReward) {
-        return true;
-      }
-      return false;
-    }
-  };
   const handleEdit = () => {
     if (isEdit) {
       handleNext();
@@ -130,7 +118,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           <div className="w-full">
             <label className="heading">Network</label>
             <Select
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="large"
               defaultValue={network}
@@ -155,7 +143,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
             <label className="heading">Reward Type</label>
             <Select
               value={rewardType}
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="middle"
               onChange={setRewardType}
@@ -179,7 +167,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
             <label className="heading">Category Token</label>
             <Select
               value={categoryToken}
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="large"
               onChange={setCategoryToken}
@@ -203,7 +191,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           <label className="heading">Total Reward</label>
           <Input
             type="number"
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
             value={totalReward}
             onChange={(e) => {
               dispatch(setIsSave(true));
@@ -217,7 +205,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         <div className="mt-5">
           <label className="heading">Number Of Winner</label>
           <Input
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
             value={numberWinner}
             onChange={(e) => setNumberWinner(e.target.value)}
             type="number"

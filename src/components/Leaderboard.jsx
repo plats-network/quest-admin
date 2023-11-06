@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { Avatar, Button, Tooltip } from "antd";
 import { DateTime } from "luxon";
-import { Button, Avatar, Divider, Tooltip } from "antd";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import metadata from "../utils/contract.json";
 
+import { useContract, useTx } from "useink";
 import {
   setStateDeposit,
   setStateLeaderboard,
@@ -12,9 +13,8 @@ import {
   setStateReward,
   setStateSetup,
 } from "../redux/stateCampaign";
-import { instanceAxios } from "../services/api-connect-wallet";
-import { useContract, useTx } from "useink";
 import { routes } from "../routes";
+import { instanceAxios } from "../services/api-connect-wallet";
 
 function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQuest, setValueReward, valueReward }) {
   const param = useParams();

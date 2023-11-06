@@ -1,5 +1,5 @@
 import { Input, Select } from "antd";
-import { Aleph, Astar, Phala } from "../../asset/img";
+import { Aleph, Astar } from "../../assets/img";
 import { FaWindowClose } from "react-icons/fa";
 
 export const NetWorks = [
@@ -68,7 +68,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
       <h1 className="text-[16px] md:text-[24px] font-semibold text-white">{title}</h1>
       <div className="flex flex-col md:flex-row items-start justify-between gap-4 md:gap-10">
         <div className="flex flex-col w-full">
-          <label className="heading">NetWork</label>
+          <label className="heading">Network</label>
           <Select
             disabled={isDisable}
             className="w-full h-[40px] md:!h-[54px] !text-[130px] placeholder:text[20px]"

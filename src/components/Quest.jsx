@@ -1,20 +1,21 @@
-import ButtonTwitter from "./ButtonTwitter";
-import { useEffect, useRef, useState } from "react";
-import Follow from "./Twitter/Follow";
-import Retweet from "./Twitter/Retweet";
-import Like from "./Twitter/Like";
-import HashTag from "./Twitter/HashTag";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { setSaveSuccess, setStateQuest } from "../redux/stateCampaign";
+import { callApiCreate } from "../services/callApiCreate";
+import { checkAllowedNext } from "../utils/checkAllowNextQuest";
+import { checkLogin } from "../utils/checkLogin";
+import { handleCheckDisable } from "../utils/handleDisableTask";
+import { notifyError } from "../utils/toastify";
+import { validateTaskQuest } from "../utils/validateQuest";
 import TemplateWeb3 from "./ActionWeb3/TemplateWeb3";
 import ButtonNetwork from "./ButtonNetwork";
-import { ToastContainer } from "react-toastify";
-import { notifyError } from "../utils/toastify";
-import { useDispatch } from "react-redux";
-import { setResetQuest, setSaveSuccess, setStateQuest } from "../redux/stateCampaign";
-import { useSelector } from "react-redux";
-import { callApiCreate } from "../services/callApiCreate";
-import { useLocation, useNavigate } from "react-router-dom";
-import { checkLogin } from "../utils/checkLogin";
-import { validateTaskQuest } from "../utils/validateQuest";
+import ButtonTwitter from "./ButtonTwitter";
+import Follow from "./Twitter/Follow";
+import HashTag from "./Twitter/HashTag";
+import Like from "./Twitter/Like";
+import Retweet from "./Twitter/Retweet";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
@@ -25,14 +26,13 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { stateQuest } = useSelector((state) => state.stateCampaign);
-  const { resetQuest } = useSelector((state) => state.stateCampaign);
+  const [isEdit, setIsEdit] = useState(false);
   const [activeTwitter, setActionTwitter] = useState({
     Follow: false,
     Retweet: false,
     Like: false,
     Hashtag: false,
   });
-  const [isEdit, setIsEdit] = useState(false);
 
   const [activeTemplate, setActiveTemplate] = useState({
     TokenHolder: false,
@@ -44,25 +44,6 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
   const [like, setLike] = useState(data?.twitterLike || "");
   const [hashtag, setHashtag] = useState(data?.twitterHashtag || "");
   const [urlHashtag, setUrlHashtag] = useState(data?.twitterHashtagUrl || "");
-  useEffect(() => {
-    if (resetQuest) {
-      setFollow();
-      setRetweet();
-      setLike();
-      setHashtag();
-      setTokenHolder({
-        network: "Aleph Zero",
-        categoryToken: "AZERO",
-        minimumAmount: "",
-      });
-      setTransactionActivity({
-        network: "Aleph Zero",
-        categoryToken: "AZERO",
-        minimumAmount: "",
-      });
-      dispatch(setResetQuest(false));
-    }
-  }, [resetQuest]);
 
   const [tokenHolder, setTokenHolder] = useState(
     data?.tokenHolder || {
@@ -80,19 +61,18 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
     }
   );
 
-  const checkAllowedNext = () => {
-    if (activeTwitter.Follow && !follow) return false;
-    if (activeTwitter.Retweet && !retweet) return false;
-    if (activeTwitter.Like && !like) return false;
-    if (activeTwitter.Hashtag && !hashtag) return false;
-    if (activeTwitter.Hashtag && !hashtag && !urlHashtag) return false;
-    if (activeTemplate.TokenHolder && !tokenHolder.minimumAmount) return false;
-    if (activeTemplate.TransactionActivity && !transactionActivity.minimumAmount) return false;
-    return true;
-  };
-
   const handleNext = () => {
-    const res = checkAllowedNext();
+    const res = checkAllowedNext(
+      activeTwitter,
+      activeTemplate,
+      follow,
+      retweet,
+      like,
+      hashtag,
+      urlHashtag,
+      tokenHolder,
+      transactionActivity
+    );
     const check = validateTaskQuest(activeTwitter, follow, retweet, like, urlHashtag, hashtag);
     if (!check) return;
     if (res) {
@@ -146,20 +126,6 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
     }
   };
 
-  const handleCheckDisable = () => {
-    if (isDetail) {
-      if (isEdit) {
-        return false;
-      }
-      return true;
-    } else {
-      if (stateQuest) {
-        return true;
-      }
-      return false;
-    }
-  };
-
   const handleEdit = () => {
     if (isEdit) {
       handleNext();
@@ -192,7 +158,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
             setFollow={setFollow}
             setActionTwitter={setActionTwitter}
             value={follow}
-            isDisable={handleCheckDisable()}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
           />
         ) : (
           ""
@@ -202,13 +168,18 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
             setRetweet={setRetweet}
             setActionTwitter={setActionTwitter}
             value={retweet}
-            isDisable={handleCheckDisable()}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
           />
         ) : (
           ""
         )}
         {activeTwitter.Like || data?.twitterLike ? (
-          <Like setLike={setLike} setActionTwitter={setActionTwitter} value={like} isDisable={handleCheckDisable()} />
+          <Like
+            setLike={setLike}
+            setActionTwitter={setActionTwitter}
+            value={like}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
+          />
         ) : (
           ""
         )}
@@ -219,7 +190,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
             setActionTwitter={setActionTwitter}
             value={hashtag}
             urlHashtag={urlHashtag}
-            isDisable={handleCheckDisable()}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
           />
         ) : (
           ""
@@ -231,7 +202,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
             setTokenHolder={setTokenHolder}
             title="TokenHolder"
             label="Minimum amount of tokens held"
-            isDisable={handleCheckDisable()}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
           />
         ) : (
           ""
@@ -243,7 +214,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive }) {
             setTransactionActivity={setTransactionActivity}
             title="TransactionActivity"
             label="Minimum number of transactions"
-            isDisable={handleCheckDisable()}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
           />
         ) : (
           ""

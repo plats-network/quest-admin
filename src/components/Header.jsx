@@ -1,4 +1,4 @@
-import { LogoQuest } from "../asset/img";
+import { LogoQuest } from "../assets/img";
 import { Button } from "antd";
 import { useState } from "react";
 import { FaPlus, FaSignOutAlt } from "react-icons/fa";
