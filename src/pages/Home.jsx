@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { LogoQuest, Banner } from "../asset/img";
+import { useCallback, useEffect, useState } from "react";
+import { LogoQuest, Banner } from "../assets/img";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ModalWallet } from "../components/ModalWallet";
+import ModalWallet from "../components/ModalWallet";
 
 function Home() {
   const navigate = useNavigate();
@@ -11,11 +11,15 @@ function Home() {
 
   const handleConnect = () => {
     if (!currentAccount) {
-      setIsModal(true);
+      handleModal(true);
     } else {
       navigate("/campaign");
     }
   };
+
+  const handleModal = useCallback((value) => {
+    setIsModal(value);
+  }, []);
 
   return (
     <main className="mx-auto max-w-screen-2xl w-full mt-10 overflow-hidden px-2">
@@ -47,7 +51,6 @@ function Home() {
               className="btnGradient1 cursor-pointer py-2 px-4 md:py-4 md:px-10 rounded-lg text-[16px] md:text-[20px] font-normal md:font-bold text-white"
             >
               {" "}
-              {isModal && <ModalWallet setIsModal={setIsModal} />}
               Start Earning
             </a>
             <button
@@ -62,7 +65,7 @@ function Home() {
           <img className="w-full md:-mt-[180px] md:relative" src={Banner} alt="banner" />
         </div>
       </div>
-      {isModal && <ModalWallet setIsModal={setIsModal} />}
+      {isModal && <ModalWallet setIsModal={handleModal} />}
     </main>
   );
 }

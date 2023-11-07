@@ -5,7 +5,7 @@ function Card({ featured_image, name, content, id, status }) {
     <Link to={`detail/${id}`} className="max-w-[300px]">
       <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="shadow-lg">
-          <img className="rounded-t-lg object-cover h-[200px]" src={featured_image} alt="" />
+          <img className="rounded-t-lg object-cover h-[200px] mx-auto" src={featured_image} alt="" />
         </div>
         <div className="p-5 relative">
           <div>

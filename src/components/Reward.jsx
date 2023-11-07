@@ -9,9 +9,19 @@ import { setIsSave, setResetReward, setSaveSuccess, setStateReward } from "../re
 import { callApiCreate } from "../services/callApiCreate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
-import { Nft, Token } from "../asset/img";
+import { Nft, Token } from "../assets/img";
+import { handleCheckDisable, handleCheckDisableRewards } from "../utils/handleDisableTask";
+import LogicHandleButton from "../utils/LogicHandleButton";
+import { useBalance, useWallet } from "useink";
+import { checkBalanceNetwork } from "../utils/checkBalanceNetwork";
 
-function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive }) {
+const mapNetworkToken = {
+  "Aleph Zero": "AZERO",
+  Astar: "ASTR",
+  Polkadot: "DOT",
+};
+
+function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive, isDeposit, timeStart }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
   const [network, setNetwork] = useState(data?.network || "Aleph Zero");
   const [categoryToken, setCategoryToken] = useState(data?.categoryToken || "AZERO");
@@ -20,6 +30,12 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   const { stateReward, resetReward } = useSelector((state) => state.stateCampaign);
   const [isEdit, setIsEdit] = useState(false);
   const isDetail = useLocation().pathname.includes("detail");
+
+  const { account } = useWallet();
+  const balanceAzeroObject = useBalance(account, "aleph-testnet");
+  const balanceAstrObject = useBalance(account, "shibuya-testnet");
+  const balanceAzero = parseFloat(balanceAzeroObject?.freeBalance.toHuman().replace(/,/g, "")) / 1e12;
+  const balanceAstr = parseFloat(balanceAstrObject?.freeBalance.toHuman().replace(/,/g, "")) / 1e18;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,6 +51,11 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     },
   ];
 
+  const balanceOptions = {
+    "Aleph Zero": balanceAzero,
+    Astar: balanceAstr,
+  };
+
   useEffect(() => {
     if (resetReward) {
       setRewardType("Token");
@@ -47,6 +68,9 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   }, [resetReward]);
 
   const handleNext = () => {
+    if (!checkBalanceNetwork(totalReward, balanceOptions[network])) {
+      return;
+    }
     if (totalReward) {
       setValueReward({
         rewardType,
@@ -92,19 +116,6 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
       notifyError(error?.response?.data?.message?.name[0]);
     }
   };
-  const handleCheckDisable = () => {
-    if (isDetail) {
-      if (isEdit) {
-        return false;
-      }
-      return true;
-    } else {
-      if (stateReward) {
-        return true;
-      }
-      return false;
-    }
-  };
   const handleEdit = () => {
     if (isEdit) {
       handleNext();
@@ -115,13 +126,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
 
   const handleNetwork = (value) => {
     setNetwork(value);
-    if (value === "Phala") {
-      setCategoryToken("PHA");
-    } else if (value === "Aleph Zero") {
-      setCategoryToken("AZERO");
-    } else {
-      setCategoryToken("ASTR");
-    }
+    setCategoryToken(mapNetworkToken[value]);
   };
   return (
     <div className="">
@@ -130,7 +135,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           <div className="w-full">
             <label className="heading">Network</label>
             <Select
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="large"
               defaultValue={network}
@@ -155,7 +160,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
             <label className="heading">Reward Type</label>
             <Select
               value={rewardType}
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="middle"
               onChange={setRewardType}
@@ -179,7 +184,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
             <label className="heading">Category Token</label>
             <Select
               value={categoryToken}
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
               className="w-full h-[40px] md:!h-[54px]"
               size="large"
               onChange={setCategoryToken}
@@ -203,7 +208,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           <label className="heading">Total Reward</label>
           <Input
             type="number"
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
             value={totalReward}
             onChange={(e) => {
               dispatch(setIsSave(true));
@@ -217,7 +222,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         <div className="mt-5">
           <label className="heading">Number Of Winner</label>
           <Input
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateReward)}
             value={numberWinner}
             onChange={(e) => setNumberWinner(e.target.value)}
             type="number"
@@ -235,45 +240,17 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           />
         </div>
       </div>
-      {isDetail ? (
-        data?.status === "Draft" && (
-          <button
-            onClick={handleEdit}
-            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            {isEdit ? "Save" : "Edit"}
-          </button>
-        )
-      ) : (
-        <>
-          {" "}
-          <button
-            style={{ display: !stateReward ? "none" : "" }}
-            onClick={handleCreateEdit}
-            className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            Edit
-          </button>
-          <div className="flex items-center justify-center gap-4 md:gap-8 mt-5">
-            <button
-              style={{ display: stateReward ? "none" : "" }}
-              onClick={handleSave}
-              className="bg-[#D83F31] hover:bg-opacity-60 text-white font-bold py-1 px-3 md:py-3 md:px-8 rounded  mt-2 mb-4 text-[16px] md:text-[20px]"
-            >
-              Save
-            </button>
-
-            <button
-              style={{ display: stateReward ? "none" : "" }}
-              onClick={handleNext}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 md:py-3 md:px-8 rounded  mt-2 mb-4 text-[16px] md:text-[20px]"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+      <LogicHandleButton
+        isDetail={isDetail}
+        data={data}
+        isEdit={isEdit}
+        handleEdit={handleEdit}
+        startDate={timeStart}
+        handleCreateEdit={handleCreateEdit}
+        handleNext={handleNext}
+        handleSave={handleSave}
+        state={stateReward}
+      />
       <ToastContainer />
     </div>
   );

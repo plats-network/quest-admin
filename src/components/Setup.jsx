@@ -5,11 +5,16 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Upload } from "../asset/img";
+import { Upload } from "../assets/img";
 import { setSaveSuccess, setStateSetup } from "../redux/stateCampaign";
 import { callApiCreate } from "../services/callApiCreate";
 import { checkLogin } from "../utils/checkLogin";
 import { notifyError } from "../utils/toastify";
+import { handleCheckDisable } from "../utils/handleDisableTask";
+import { checkStartCampaign } from "../utils/checkStartCampaign";
+import Group3Button from "./GroupButton";
+import Button from "./Button";
+import LogicHandleButton from "../utils/LogicHandleButton";
 
 const IMAGE_MAX_SIZE = 5000000;
 
@@ -120,20 +125,6 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
     setUrlThumbnail(data?.urlThumbnail);
   }, [data?.title]);
 
-  const handleCheckDisable = () => {
-    if (isDetail) {
-      if (isEdit) {
-        return false;
-      }
-      return true;
-    } else {
-      if (stateSetup) {
-        return true;
-      }
-      return false;
-    }
-  };
-
   const handleCreateEdit = () => {
     dispatch(setStateSetup(false));
   };
@@ -146,7 +137,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
             Title
           </label>
           <Input
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="!leading-9 md:leading-[50px] placeholder:text-[18px] text-[18px]"
@@ -158,7 +149,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
             Description
           </label>
           <Input.TextArea
-            disabled={handleCheckDisable()}
+            disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
@@ -169,7 +160,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
           <div className="w-full">
             <label className="block heading">Start Date</label>
             <DatePicker
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
               value={startDate ? dayjs(startDate) : ""}
               onChange={handleStartDate}
               size="large"
@@ -179,7 +170,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
           <div className="w-full">
             <label className="block heading">End Date</label>
             <DatePicker
-              disabled={handleCheckDisable()}
+              disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
               value={endDate ? dayjs(endDate) : ""}
               onChange={handleEndDate}
               size="large"
@@ -216,45 +207,17 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
       </div>
 
       {/* nếu không phải là màn detail */}
-      {isDetail ? (
-        data?.status === "Draft" && (
-          <button
-            onClick={handleEdit}
-            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            {isEdit ? "Save" : "Edit"}
-          </button>
-        )
-      ) : (
-        <>
-          <button
-            style={{ display: !stateSetup ? "none" : "" }}
-            onClick={handleCreateEdit}
-            className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            Edit
-          </button>
-
-          <div className="flex items-center justify-center gap-4 md:gap-8 pb-8">
-            <button
-              style={{ display: stateSetup ? "none" : "" }}
-              onClick={handleSave}
-              className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px]"
-            >
-              Save
-            </button>
-
-            <button
-              style={{ display: stateSetup ? "none" : "" }}
-              onClick={handleNext}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px]"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+      <LogicHandleButton
+        isDetail={isDetail}
+        data={data}
+        isEdit={isEdit}
+        handleEdit={handleEdit}
+        startDate={startDate}
+        handleCreateEdit={handleCreateEdit}
+        handleNext={handleNext}
+        handleSave={handleSave}
+        state={stateSetup}
+      />
 
       <ToastContainer />
     </div>

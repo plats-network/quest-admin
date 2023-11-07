@@ -132,7 +132,8 @@ export const callApiUpdate = async (id,valueSetup, valueQuest, valueReward, stat
         tasks.push({
             name: "Twitter HashTag",
             entry_type: "TWITTER_HASHTAG",
-            value: valueQuest?.twitterHashtag,
+            hash_tag: valueQuest?.twitterHashtag,
+            value: valueQuest?.twitterHashtagUrl,
             status : "Active"
         })
     }

@@ -8,6 +8,7 @@ import Upload from './upload.png'
 import Astar from './astar.jpeg'
 import Token from './token.jpeg'
 import Nft from "./nft.png"
+import Dot from "./dot.png"
 
 
-export {Logo, Background, Phala, Aleph, LogoQuest, Banner, Upload, Astar, Token, Nft}
+export {Logo, Background, Phala, Aleph, LogoQuest, Banner, Upload, Astar, Token, Nft, Dot}

@@ -15,7 +15,8 @@ import {
 } from "../redux/stateCampaign";
 
 function Quest() {
-  const { saveSuccess } = useSelector((state) => state.stateCampaign);
+  const { saveSuccess, balance } = useSelector((state) => state.stateCampaign);
+  console.log({ balance });
   const dispatch = useDispatch();
 
   useEffect(() => {
