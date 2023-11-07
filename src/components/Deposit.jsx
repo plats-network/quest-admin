@@ -43,7 +43,7 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       return;
     }
     if (!isFlagDeposit) {
-      alpheDeposit.signAndSend([], { value: amount });
+      alpheDeposit.signAndSend([], { value: BigInt(amount * 1e12) });
     }
   };
   const handleDepositAstar = async () => {
@@ -51,7 +51,7 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       return;
     }
     if (!isFlagDeposit) {
-      astarDeposit.signAndSend([], { value: amount });
+      astarDeposit.signAndSend([], { value: BigInt(amount * 1e18) });
     }
   };
 

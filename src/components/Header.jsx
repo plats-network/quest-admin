@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { useState } from "react";
 import { FaPlus, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { ModalWallet } from "./ModalWallet";
+import ModalWallet from "./ModalWallet";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setStateDeposit,

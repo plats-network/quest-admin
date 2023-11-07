@@ -16,7 +16,7 @@ import Follow from "./Twitter/Follow";
 import HashTag from "./Twitter/HashTag";
 import Like from "./Twitter/Like";
 import Retweet from "./Twitter/Retweet";
-import { checkStartCampaign } from "../utils/checkStartCampaign";
+import LogicHandleButton from "../utils/LogicHandleButton";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
@@ -221,55 +221,17 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
           ""
         )}
       </div>
-      {isDetail ? (
-        data?.status === "Draft" ? (
-          <button
-            onClick={handleEdit}
-            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            {isEdit ? "Save" : "Edit"}
-          </button>
-        ) : checkStartCampaign(timeStart) ? (
-          ""
-        ) : (
-          <button
-            onClick={handleEdit}
-            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            {isEdit ? "Save" : "Edit"}
-          </button>
-        )
-      ) : (
-        <div>
-          <button
-            style={{ display: !stateQuest ? "none" : "" }}
-            onClick={handleCreateEdit}
-            className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            Edit
-          </button>
-
-          <div className="flex items-center justify-center gap-4 md:gap-8">
-            <button
-              style={{ display: stateQuest ? "none" : "" }}
-              onClick={handleSave}
-              className="bg-[#D83F31] hover:bg-opacity-60 text-white font-bold py-1 px-3 md:py-3 md:px-8 rounded  mt-2 mb-4 text-[16px] md:text-[20px]"
-            >
-              Save
-            </button>
-
-            <button
-              style={{ display: stateQuest ? "none" : "" }}
-              onClick={handleNext}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 md:py-3 md:px-8 rounded  mt-2 mb-4 text-[16px] md:text-[20px]"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
+      <LogicHandleButton
+        isDetail={isDetail}
+        data={data}
+        isEdit={isEdit}
+        handleEdit={handleEdit}
+        startDate={timeStart}
+        handleCreateEdit={handleCreateEdit}
+        handleNext={handleNext}
+        handleSave={handleSave}
+        state={stateQuest}
+      />
       <ToastContainer />
     </div>
   );

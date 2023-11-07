@@ -12,6 +12,9 @@ import { checkLogin } from "../utils/checkLogin";
 import { notifyError } from "../utils/toastify";
 import { handleCheckDisable } from "../utils/handleDisableTask";
 import { checkStartCampaign } from "../utils/checkStartCampaign";
+import Group3Button from "./GroupButton";
+import Button from "./Button";
+import LogicHandleButton from "../utils/LogicHandleButton";
 
 const IMAGE_MAX_SIZE = 5000000;
 
@@ -204,55 +207,17 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
       </div>
 
       {/* nếu không phải là màn detail */}
-      {isDetail ? (
-        data?.status === "Draft" ? (
-          <button
-            onClick={handleEdit}
-            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            {isEdit ? "Save" : "Edit"}
-          </button>
-        ) : checkStartCampaign(startDate) ? (
-          ""
-        ) : (
-          <button
-            onClick={handleEdit}
-            style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-            className="hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            {isEdit ? "Save" : "Edit"}
-          </button>
-        )
-      ) : (
-        <>
-          <button
-            style={{ display: !stateSetup ? "none" : "" }}
-            onClick={handleCreateEdit}
-            className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded relative left-[50%] -translate-x-[50%] mt-4 md:mt-8 text-[16px] md:text-[20px]"
-          >
-            Edit
-          </button>
-
-          <div className="flex items-center justify-center gap-4 md:gap-8 pb-8">
-            <button
-              style={{ display: stateSetup ? "none" : "" }}
-              onClick={handleSave}
-              className="bg-[#D83F31] hover:bg-opacity-60 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px]"
-            >
-              Save
-            </button>
-
-            <button
-              style={{ display: stateSetup ? "none" : "" }}
-              onClick={handleNext}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-3 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px]"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+      <LogicHandleButton
+        isDetail={isDetail}
+        data={data}
+        isEdit={isEdit}
+        handleEdit={handleEdit}
+        startDate={startDate}
+        handleCreateEdit={handleCreateEdit}
+        handleNext={handleNext}
+        handleSave={handleSave}
+        state={stateSetup}
+      />
 
       <ToastContainer />
     </div>
