@@ -64,27 +64,6 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
     return true;
   };
 
-  // const handleDepositPhala = async () => {
-  //   const signer = await getSigner(account);
-  //   contract.tx.deposit({}).signAndSend(account.address, { signer }, (status) => {
-  //     if (status.isInBlock) {
-  //       setIsLoading(false);
-  //       notifySuccess("Deposit Successfully!");
-  //       if (param?.id) {
-  //         callApiUpdate(param?.id, valueSetup, valueQuest, valueReward, true);
-  //       } else {
-  //         callApiCreate(valueSetup, valueQuest, valueReward, true);
-  //       }
-  //       //call api
-  //       setValue("Leaderboard");
-  //       dispatch(setStateDeposit(true));
-  //       dispatch(setStateLeaderboard(true));
-  //     } else {
-  //       setIsLoading(true);
-  //     }
-  //   });
-  // };
-
   const handleDeposit = async () => {
     if (valueReward?.network === "Astar") {
       await handleDepositAstar();
@@ -179,6 +158,11 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
 
   return (
     <div className="">
+      <div
+        className={clsx({
+          "absolute inset-0 bg-transparent": U.shouldDisable(depositOption[valueReward?.network] || alpheDeposit),
+        })}
+      ></div>
       <p className="text-[16px] md:text-[20px] font-semibold text-white py-4 px-4 rounded-lg borderBlue">
         You have {isDeposit ? " deposited " : " to deposit "}
         <span className="text-yellow-600">
