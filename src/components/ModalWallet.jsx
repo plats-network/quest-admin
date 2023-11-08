@@ -5,19 +5,15 @@ import { hocApiPost } from "../services/api-connect-wallet";
 import { setCurrentAccount } from "../redux/accountSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setBalance, setToken } from "../redux/stateCampaign";
+import { setToken } from "../redux/stateCampaign";
 
 const ModalWallet = ({ setIsModal }) => {
   const dispatch = useDispatch();
   const { account, connect } = useWallet();
   const wallets = useAllWallets();
   const navigate = useNavigate();
-  const balance = useBalance(account, "shibuya-testnet");
 
   useEffect(() => {
-    if (balance) {
-      dispatch(setBalance(balance));
-    }
     if (account?.address) {
       dispatch(setCurrentAccount(account.address));
       const body = {
@@ -35,7 +31,7 @@ const ModalWallet = ({ setIsModal }) => {
         throw new Error(error);
       }
     }
-  }, [account?.address, balance]);
+  }, [account?.address]);
 
   if (!account) {
     return (
