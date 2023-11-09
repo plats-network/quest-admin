@@ -14,8 +14,19 @@ import { main } from "../utils/phala-setup";
 import { checkLogin } from "../utils/checkLogin";
 import clsx from "clsx";
 import { checkValueQuest } from "../utils/checkTickQuest";
+import { checkStartCampaign } from "../utils/checkStartCampaign";
 
-function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest, valueReward, isDeposit, onActive }) {
+function DepositPayout({
+  amount,
+  setValue,
+  categoryToken,
+  valueSetup,
+  valueQuest,
+  valueReward,
+  isDeposit,
+  onActive,
+  timeStart,
+}) {
   const param = useParams();
   const CONTRACT_ADDRESS_ALPHE = import.meta.env.VITE_CONTRACT_ADDRESS_ALEPH;
   const CONTRACT_ADDRESS_ASTAR = import.meta.env.VITE_CONTRACT_ADDRESS_ASTAR;
@@ -174,7 +185,12 @@ function DepositPayout({ amount, setValue, categoryToken, valueSetup, valueQuest
       {isDetail && isDeposit ? (
         <Button
           onClick={handleUpdate}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center mx-auto"
+          className={clsx(
+            "bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center mx-auto",
+            {
+              hidden: checkStartCampaign(timeStart),
+            }
+          )}
         >
           Update
         </Button>
