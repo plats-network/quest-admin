@@ -78,7 +78,15 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
     navigate("/campaign");
   };
 
+  const checkFinish = (endDate) => {
+    const timeEndDate = new Date(endDate).getTime();
+    if (new Date().getTime() - timeEndDate >= 0) {
+      setPartyTime(true);
+    }
+  };
+
   useEffect(() => {
+    checkFinish(endDate);
     let interval;
     if (endDate && startDate) {
       interval = setInterval(() => {
@@ -97,6 +105,7 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
         setSeconds(s);
 
         if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+          clearInterval(interval);
           setIsPrize(true);
           setPartyTime(true);
         }
@@ -121,27 +130,33 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
 
   return (
     <div className="px-2 md:px-0 mt-4">
-      <h1 className="text-[20px] md:text-[28px] text-white font-semibold">
-        {isRemainingToStart ? "Countdown to the beginning" : "Time Remaining"}
-      </h1>
-      <div className="max-w-[85%] mx-auto flex items-center justify-between mt-4 md:mt-10 border-[1px] border-[#279EFF] rounded-lg py-4 px-6">
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-[24px] md:text-[40px] font-bold mb-3 text-[#FD8D14]">{days}</p>
-          <p className="text-white text-[18px] md:text-[32px]">Days</p>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-[24px] md:text-[40px]  font-bold mb-3 text-[#FD8D14]">{hours}</p>
-          <p className="text-white text-[18px] md:text-[32px]">Hours</p>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-[24px] md:text-[40px] font-bold mb-3 text-[#FD8D14]">{minutes}</p>
-          <p className="text-white text-[18px] md:text-[32px]">Minutes</p>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-[24px] md:text-[40px] font-bold mb-3 text-[#FD8D14]">{seconds}</p>
-          <p className="text-white text-[18px] md:text-[32px]">Seconds</p>
-        </div>
-      </div>
+      {partyTime ? (
+        <h1 className="text-[20px] md:text-[40px] text-yellow-500 font-semibold text-center">Campaign Has Finished</h1>
+      ) : (
+        <>
+          <h1 className="text-[20px] md:text-[28px] text-white font-semibold">
+            {isRemainingToStart ? "Countdown to the beginning" : "Time Remaining"}
+          </h1>
+          <div className="max-w-[85%] mx-auto flex items-center justify-between mt-4 md:mt-10 border-[1px] border-[#279EFF] rounded-lg py-4 px-6">
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-[24px] md:text-[40px] font-bold mb-3 text-[#FD8D14]">{days}</p>
+              <p className="text-white text-[18px] md:text-[32px]">Days</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-[24px] md:text-[40px]  font-bold mb-3 text-[#FD8D14]">{hours}</p>
+              <p className="text-white text-[18px] md:text-[32px]">Hours</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-[24px] md:text-[40px] font-bold mb-3 text-[#FD8D14]">{minutes}</p>
+              <p className="text-white text-[18px] md:text-[32px]">Minutes</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-[24px] md:text-[40px] font-bold mb-3 text-[#FD8D14]">{seconds}</p>
+              <p className="text-white text-[18px] md:text-[32px]">Seconds</p>
+            </div>
+          </div>
+        </>
+      )}
       <Button
         style={{ opacity: isPrize ? 1 : 0.5 }}
         disabled={!isPrize}
