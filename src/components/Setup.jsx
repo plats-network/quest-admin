@@ -202,7 +202,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
               <img src={urlThumbnail} className="object-contain max-h-[300px] md:max-h-[360px]" />
             </div>
           </div>
-          {handleCheckDisable() && <div className="absolute inset-0 z-50"></div>}
+          {handleCheckDisable(isDetail, isEdit, stateSetup) && <div className="absolute inset-0 z-50"></div>}
         </div>
       </div>
 
