@@ -133,7 +133,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
     <div className="">
       <div className="mt-5 w-full border-[1px] border-[#279EFF] py-2 px-4 md:py-6 md:px-8 rounded-lg">
         <div className="mb-4 md:mb-6">
-          <label htmlFor="default-input" className="heading">
+          <label htmlFor="default-input" className="heading after:content-['*'] after:ml-1 after:text-red-500">
             Title
           </label>
           <Input
@@ -145,7 +145,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
         </div>
 
         <div>
-          <label htmlFor="message" className="heading">
+          <label htmlFor="message" className="heading after:content-['*'] after:ml-1 after:text-red-500">
             Description
           </label>
           <Input.TextArea
@@ -158,7 +158,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-10 mt-3 md:mt-5 w-full">
           <div className="w-full">
-            <label className="block heading">Start Date</label>
+            <label className="block heading after:content-['*'] after:ml-1 after:text-red-500">Start Date</label>
             <DatePicker
               disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
               value={startDate ? dayjs(startDate) : ""}
@@ -168,7 +168,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
             />
           </div>
           <div className="w-full">
-            <label className="block heading">End Date</label>
+            <label className="block heading after:content-['*'] after:ml-1 after:text-red-500">End Date</label>
             <DatePicker
               disabled={handleCheckDisable(isDetail, isEdit, stateSetup)}
               value={endDate ? dayjs(endDate) : ""}

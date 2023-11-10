@@ -205,7 +205,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
           </div>
         </div>
         <div className="mt-2 md:mt-5">
-          <label className="heading">Total Reward</label>
+          <label className="heading after:content-['*'] after:ml-1 after:text-red-500">Total Reward</label>
           <Input
             type="number"
             disabled={handleCheckDisableRewards(isDetail, isDeposit, isEdit, stateReward)}
