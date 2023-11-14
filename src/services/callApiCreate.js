@@ -4,7 +4,8 @@ import dayjs from 'dayjs'
 
 const Network = {
     "Aleph Zero": "aleph",
-    "Astar": "astar"
+    "Astar": "astar",
+    "Polkadot": "polkadot",
 }
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status, setValue) => {
     const tasks = [];
