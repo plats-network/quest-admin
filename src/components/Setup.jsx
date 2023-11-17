@@ -1,6 +1,6 @@
 import { DatePicker, Input } from "antd";
 import dayjs from "dayjs";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,13 +8,11 @@ import { ToastContainer } from "react-toastify";
 import { Upload } from "../assets/img";
 import { setSaveSuccess, setStateSetup } from "../redux/stateCampaign";
 import { callApiCreate } from "../services/callApiCreate";
-import { checkLogin } from "../utils/checkLogin";
-import { notifyError } from "../utils/toastify";
-import { handleCheckDisable } from "../utils/handleDisableTask";
-import { checkStartCampaign } from "../utils/checkStartCampaign";
-import Group3Button from "./GroupButton";
-import Button from "./Button";
 import LogicHandleButton from "../utils/LogicHandleButton";
+import { checkLogin } from "../utils/checkLogin";
+import { checkTimeCampaign } from "../utils/checkTimeCampaign";
+import { handleCheckDisable } from "../utils/handleDisableTask";
+import { notifyError } from "../utils/toastify";
 
 const IMAGE_MAX_SIZE = 5000000;
 
@@ -68,6 +66,9 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
 
   const handleNext = () => {
     if (title && description && startDate && endDate) {
+      if (!checkTimeCampaign(startDate, endDate)) {
+        return;
+      }
       setValueSetup({
         title,
         description,
@@ -86,11 +87,6 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
     } else {
       notifyError("Please complete all information !");
     }
-  };
-
-  const handleReset = () => {
-    setValueSetup();
-    dispatch(setStateSetup(false));
   };
 
   const handleSave = async () => {

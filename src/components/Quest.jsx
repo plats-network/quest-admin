@@ -17,6 +17,7 @@ import HashTag from "./Twitter/HashTag";
 import Like from "./Twitter/Like";
 import Retweet from "./Twitter/Retweet";
 import LogicHandleButton from "../utils/LogicHandleButton";
+import { checkTaskOnChain } from "../utils/checkTaskOnChain";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
@@ -75,6 +76,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
       transactionActivity
     );
     const check = validateTaskQuest(activeTwitter, follow, retweet, like, urlHashtag, hashtag);
+    const checkAmount = checkTaskOnChain(tokenHolder.minimumAmount, transactionActivity.minimumAmount);
+    if (!checkAmount) return false;
     if (!check) return;
     if (res) {
       setValueQuest({
