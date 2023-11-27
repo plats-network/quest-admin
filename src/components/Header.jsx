@@ -48,7 +48,12 @@ function Header() {
           <div className="flex items-center gap-4 md:gap-10">
             <div>
               <a href="/" className="flex items-center">
-                <img src={LogoQuest} className="mr-3 w-[36px] h-[36px] md:h-[56px] md:w-[56px]" alt="Flowbite Logo" />
+                <img
+                  src={LogoQuest}
+                  className="mr-3 w-[36px] h-[36px] md:h-[56px] md:w-[56px]"
+                  alt="Flowbite Logo"
+                  loading="lazy"
+                />
               </a>
             </div>
             <div

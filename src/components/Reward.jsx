@@ -149,6 +149,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
                       className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
                       src={item.icon}
                       alt="icon"
+                      loading="lazy"
                     />
                     <p className="text-white">{item.network}</p>
                   </div>
@@ -172,6 +173,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
                       className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
                       src={item.icon}
                       alt="icon"
+                      loading="lazy"
                     />
                     <p className="text-white">{item.value}</p>
                   </div>
@@ -196,6 +198,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
                       className="w-[24px] h-[24px] md:w-[32px] md:h-[32px] rounded-full mr-2"
                       src={item.icon}
                       alt="icon"
+                      loading="lazy"
                     />
                     <p className="text-white">{item.token}</p>
                   </div>

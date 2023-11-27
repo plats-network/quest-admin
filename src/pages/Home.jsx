@@ -24,7 +24,12 @@ function Home() {
   return (
     <main className="mx-auto max-w-screen-2xl w-full mt-10 overflow-hidden px-2">
       <div className="flex items-center ">
-        <img className="w-[48px] h-[48px] md:w-[72px] md:h-[72px] object-cover rounded-lg" src={LogoQuest} alt="logo" />
+        <img
+          className="w-[48px] h-[48px] md:w-[72px] md:h-[72px] object-cover rounded-lg"
+          src={LogoQuest}
+          alt="logo"
+          loading="lazy"
+        />
         <h1 className="text-[24px] md:text-[40px] font-bold text-white ml-5">PLATS QUEST</h1>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-between mt-20 ml-8">
@@ -42,7 +47,12 @@ function Home() {
             Provide an effective Marketing Tool for every project in the Polkadot ecosystem
           </p>
           <div className="md:hidden h-fit">
-            <img className="w-[400px] h-[300px] -ml-[120px] -mt-[50px] object-cover" src={Banner} alt="banner" />
+            <img
+              className="w-[400px] h-[300px] -ml-[120px] -mt-[50px] object-cover"
+              src={Banner}
+              alt="banner"
+              loading="lazy"
+            />
           </div>
           <div className="flex items-center gap-4 md:gap-10 mt-10">
             <a
@@ -62,7 +72,7 @@ function Home() {
           </div>
         </div>
         <div className="hidden md:flex flex-1 w-full">
-          <img className="w-full md:-mt-[180px] md:relative" src={Banner} alt="banner" />
+          <img className="w-full md:-mt-[180px] md:relative" src={Banner} alt="banner" loading="lazy" />
         </div>
       </div>
       {isModal && <ModalWallet setIsModal={handleModal} />}

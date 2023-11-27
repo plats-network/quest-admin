@@ -92,6 +92,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
                     className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
                     src={item.icon}
                     alt="icon"
+                    loading="lazy"
                   />
                   <p className="text-white">{item.network}</p>
                 </div>
