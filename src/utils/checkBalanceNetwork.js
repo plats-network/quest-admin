@@ -1,9 +1,14 @@
-import { notifyError } from "./toastify"
+import { notifyError, notifySuccess, notifySuggest } from "./toastify";
 
-export const checkBalanceNetwork = (valueReward, balance) => {
-    if (valueReward >= balance || balance === 0) {
-        notifyError("You don't have enough balance to reward")
-        return false;
-    }
-    return true;
-}
+const MappingErrorNetwork = {
+  "Aleph Zero": "Claim token here >>\n https://faucet.test.azero.dev/",
+  Astar: "Claim token here >>\n https://portal.astar.network/shibuya-testnet/assets"
+};
+
+export const checkBalanceNetwork = (valueReward, balance, network) => {
+  if (valueReward >= balance || balance === 0) {
+    notifySuggest(`You don't have enough balance?\n ${MappingErrorNetwork[network]}`);
+    return false;
+  }
+  return true;
+};

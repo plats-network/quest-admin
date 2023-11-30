@@ -68,7 +68,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   }, [resetReward]);
 
   const handleNext = () => {
-    if (!checkBalanceNetwork(totalReward, balanceOptions[network])) {
+    if (!checkBalanceNetwork(totalReward, balanceOptions[network], network)) {
       return;
     }
     if (totalReward) {
