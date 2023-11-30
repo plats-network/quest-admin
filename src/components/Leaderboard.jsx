@@ -16,7 +16,16 @@ import {
 import { routes } from "../routes";
 import { instanceAxios } from "../services/api-connect-wallet";
 
-function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQuest, setValueReward, valueReward }) {
+function Leaderboard({
+  setValue,
+  startDate,
+  endDate,
+  setValueSetup,
+  setValueQuest,
+  setValueReward,
+  valueReward,
+  isPrized,
+}) {
   const param = useParams();
   const [partyTime, setPartyTime] = useState(false);
   const [days, setDays] = useState(0);
@@ -26,7 +35,7 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDetail = useLocation().pathname.includes("detail");
-  const [listLuckyMembers, setListLuckyMembers] = useState([]);
+  const [listLuckyMembers, setListLuckyMembers] = useState();
   const [isPrize, setIsPrize] = useState(false);
 
   const CONTRACT_ADDRESS_ALPHE = import.meta.env.VITE_CONTRACT_ADDRESS_ALEPH;
@@ -115,17 +124,30 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
   }, []);
 
   const handlePrize = async () => {
-    try {
-      const res = await instanceAxios.get(routes.quest.getDetailCampaign(param?.id));
-      const listMembers = await res?.data?.users_reward.map((item) => item.wallet_address);
-      setListLuckyMembers(listMembers);
-      if (res.status === 200) {
-        alpheReward.signAndSend([listMembers]);
+    if (!isPrized) {
+      try {
+        const res = await instanceAxios.get(routes.quest.getDetailCampaign(param?.id));
+        const listMembers = await res?.data?.users_reward.map((item) => item.wallet_address);
+        setListLuckyMembers(listMembers);
+        if (res.status === 200) {
+          alpheReward.signAndSend([listMembers]);
+          await instanceAxios.post(routes.quest.updatePrize, { post_id: param });
+        }
+        setIsPrize(false);
+      } catch (error) {
+        throw new Error(error);
       }
-      setIsPrize(false);
-    } catch (error) {
-      throw new Error(error);
     }
+  };
+
+  const checkIsPrizeDisabled = () => {
+    if (isPrized) {
+      return true;
+    }
+    if (!isPrize) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -158,15 +180,15 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
         </>
       )}
       <Button
-        style={{ opacity: isPrize ? 1 : 0.5 }}
-        disabled={!isPrize}
+        style={{ opacity: checkIsPrizeDisabled() ? 0.5 : 1 }}
+        disabled={checkIsPrizeDisabled()}
         onClick={handlePrize}
         className="bg-[#279EFF] text-white text-[12px] px-4 md:text-[18px] font-semibold md:px-8 md:py-6 flex items-center border-none outline-none hover:bg-none mx-auto mt-8"
       >
         Prize Draw
       </Button>
 
-      {listLuckyMembers?.length > 0 && (
+      {listLuckyMembers?.length > 0 ? (
         <div>
           <h1 className="text-[20px] md:text-[28px] text-white font-semibold mt-8">List Lucky User</h1>
           <ul>
@@ -181,6 +203,10 @@ function Leaderboard({ setValue, startDate, endDate, setValueSetup, setValueQues
             })}
           </ul>
         </div>
+      ) : (
+        listLuckyMembers?.length === 0 && (
+          <h1 className="text-[50px] text-center text-yellow-500 mt-5">Campaign has no players</h1>
+        )
       )}
       <div className="mt-4 md:mt-6">
         <h1 className="text-[20px] md:text-[28px] text-white font-semibold">Questers (899)</h1>
