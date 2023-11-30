@@ -18,6 +18,7 @@ function Tabs() {
   const [valueReward, setValueReward] = useState();
   const [isDeposit, setIsDeposit] = useState(false);
   const [timeStart, setTimeStart] = useState();
+  const [isPrize, setIsPrize] = useState();
   const param = useParams();
 
   const [data, setData] = useState([...listTabs]);
@@ -71,6 +72,7 @@ function Tabs() {
         const { data } = await instanceAxios.get(routes.quest.getDetailCampaign(param.id));
         const tasks = data?.tasks;
         setTimeStart(data?.start_at);
+        setIsPrize(data.is_prize);
         tasks?.forEach((item) => {
           if (item?.entry_type === "TRANSFER_ACTIVITY") {
             transactionActivity = {
@@ -184,15 +186,9 @@ function Tabs() {
         setValueReward={setValueReward}
         valueReward={valueReward}
         onActive={setData}
+        isPrized={isPrize}
       />
     ),
-  };
-
-  const checkDisable = () => {
-    if (param?.id) {
-      return false;
-    }
-    return true;
   };
 
   return (
