@@ -26,7 +26,7 @@ function Tabs() {
   const mappingNetwork = {
     aleph: "Aleph Zero",
     astar: "Astar",
-    polkadot: "Polkadot",
+    Polkadot: "Polkadot",
   };
 
   useEffect(() => {
@@ -70,6 +70,7 @@ function Tabs() {
       let transactionActivity = null;
       try {
         const { data } = await instanceAxios.get(routes.quest.getDetailCampaign(param.id));
+        console.log("data: ", data);
         const tasks = data?.tasks;
         setTimeStart(data?.start_at);
         setIsPrize(data.is_prize);

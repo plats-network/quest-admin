@@ -68,7 +68,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   }, [resetReward]);
 
   const handleNext = () => {
-    if (!checkBalanceNetwork(totalReward, balanceOptions[network])) {
+    if (!checkBalanceNetwork(totalReward, balanceOptions[network], network)) {
       return;
     }
     if (totalReward) {
@@ -95,7 +95,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     dispatch(setStateReward(false));
   }, []);
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     if (!checkLogin()) {
       notifyError("Please connect wallet first");
       return;
@@ -115,7 +115,8 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     } catch (error) {
       notifyError(error?.response?.data?.message?.name[0]);
     }
-  }, [valueSetup, valueQuest]);
+  };
+                                 
   const handleEdit = useCallback(() => {
     if (isEdit) {
       handleNext();
@@ -124,10 +125,11 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     }
   }, [isEdit]);
 
-  const handleNetwork = (value) => {
+
+  const handleNetwork = useCallback((value) => {
     setNetwork(value);
     setCategoryToken(mapNetworkToken[value]);
-  };
+  }, []);
   return (
     <div className="">
       <div className="py-2 px-4 md:py-6 md:px-8 rounded-lg border-[1px] border-[#279EFF]">
