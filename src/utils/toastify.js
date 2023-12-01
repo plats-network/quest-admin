@@ -12,18 +12,6 @@ toast.error(message, {
   theme: "colored",
 });
 
-export const notifySuggest = (message) =>
-toast.error(message, {
-  position: "top-right",
-  autoClose: 6000,
-  hideProgressBar: true,
-  closeOnClick: false,
-  pauseOnHover: false,
-  draggable: false,
-  progress: undefined,
-  theme: "colored",
-});
-
 export const notifySuccess = (message) =>
     toast.success(message, {
       position: "top-right",

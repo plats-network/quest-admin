@@ -67,8 +67,8 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     dispatch(setResetReward(false));
   }, [resetReward]);
 
-  const handleNext = useCallback(() => {
-    if (!checkBalanceNetwork(totalReward, balanceOptions[network], network)) {
+  const handleNext = () => {
+    if (!checkBalanceNetwork(totalReward, balanceOptions[network])) {
       return;
     }
     if (totalReward) {
@@ -89,7 +89,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     } else {
       notifyError("Please complete all information !");
     }
-  }, [totalReward, network, rewardType, categoryToken, numberWinner]);
+  }
 
   const handleCreateEdit = useCallback(() => {
     dispatch(setStateReward(false));
