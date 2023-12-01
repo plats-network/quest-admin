@@ -1,7 +1,7 @@
 import { Input, Select } from "antd";
 import "antd/dist/antd";
 import { NetWorks, Tokens } from "./ActionWeb3/TemplateWeb3";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { notifyError } from "../utils/toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,17 @@ const mapNetworkToken = {
   Astar: "ASTR",
   Polkadot: "DOT",
 };
+
+const rewardOptions = [
+  {
+    icon: Token,
+    value: "Token",
+  },
+  {
+    icon: Nft,
+    value: "NFT (Comming Soon)",
+  },
+];
 
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive, isDeposit, timeStart }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
@@ -40,17 +51,6 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const rewardOptions = [
-    {
-      icon: Token,
-      value: "Token",
-    },
-    {
-      icon: Nft,
-      value: "NFT (Comming Soon)",
-    },
-  ];
-
   const balanceOptions = {
     "Aleph Zero": balanceAzero,
     Astar: balanceAstr,
@@ -67,7 +67,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     dispatch(setResetReward(false));
   }, [resetReward]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (!checkBalanceNetwork(totalReward, balanceOptions[network], network)) {
       return;
     }
@@ -89,13 +89,13 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     } else {
       notifyError("Please complete all information !");
     }
-  };
+  }, [totalReward, network, rewardType, categoryToken, numberWinner]);
 
-  const handleCreateEdit = () => {
+  const handleCreateEdit = useCallback(() => {
     dispatch(setStateReward(false));
-  };
+  }, []);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (!checkLogin()) {
       notifyError("Please connect wallet first");
       return;
@@ -115,14 +115,14 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     } catch (error) {
       notifyError(error?.response?.data?.message?.name[0]);
     }
-  };
-  const handleEdit = () => {
+  }, [valueSetup, valueQuest]);
+  const handleEdit = useCallback(() => {
     if (isEdit) {
       handleNext();
     } else {
       setIsEdit(true);
     }
-  };
+  }, [isEdit]);
 
   const handleNetwork = (value) => {
     setNetwork(value);
