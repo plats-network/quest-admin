@@ -27,7 +27,6 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
   const [endDate, setEndDate] = useState(data?.endDate || "");
   const { stateSetup } = useSelector((state) => state.stateCampaign);
   const [urlThumbnail, setUrlThumbnail] = useState("");
-  const [rejected, setRejected] = useState([]);
   const [base64Thumbnail, setBase64Thumbnail] = useState("");
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
@@ -39,7 +38,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
   const handleEndDate = (date) => {
     setEndDate(date.$d);
   };
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+  const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles?.length) {
       const url = URL.createObjectURL(acceptedFiles[0]);
       const reader = new FileReader();
@@ -52,16 +51,12 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
       reader.readAsDataURL(acceptedFiles[0]);
       setUrlThumbnail(url);
     }
-
-    if (rejectedFiles?.length) {
-      setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
-    }
   }, []);
 
   const { getInputProps, getRootProps } = useDropzone({
     onDrop,
     accept: { "image/*": [".jpeg", ".jpg", ".png", ".webp", ".gif", ".psd", ".svg", ".bmp"] },
-    maxSize: IMAGE_MAX_SIZE,
+    maxSize: IMAGE_MAX_SIZE
   });
 
   const handleNext = () => {
@@ -75,7 +70,7 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
         startDate,
         endDate,
         base64Thumbnail,
-        urlThumbnail,
+        urlThumbnail
       });
       setValue("Quest");
       onActive((prev) => {

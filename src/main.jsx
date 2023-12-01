@@ -14,7 +14,7 @@ root.render(
   <UseInkProvider
     config={{
       dappName: "Flipper",
-      chains: [AlephTestnet, PhalaTestnet, ShibuyaTestnet],
+      chains: [AlephTestnet, PhalaTestnet, ShibuyaTestnet]
     }}
   >
     <ConfigProvider
@@ -23,24 +23,24 @@ root.render(
           Button: {
             colorPrimaryHover: "",
             colorPrimary: "",
-            colorPrimaryTextHover: "red",
+            colorPrimaryTextHover: "red"
           },
           Input: {
             colorText: "white",
             fontSize: "18px",
-            colorBgContainer: "transparent",
+            colorBgContainer: "transparent"
           },
           DatePicker: {
             colorBgContainer: "transparent",
-            colorTextPlaceholder: "white",
+            colorTextPlaceholder: "white"
           },
           Select: {
             colorBgContainer: "transparent",
             colorText: "white",
             colorBgElevated: "rgba(14, 33, 160, 0.6)",
-            colorTextPlaceholder: "#DFA878", //
-          },
-        },
+            colorTextPlaceholder: "#DFA878" //
+          }
+        }
       }}
     >
       <Provider store={store}>

@@ -5,50 +5,50 @@ import { FaWindowClose } from "react-icons/fa";
 export const NetWorks = [
   {
     icon: Aleph,
-    network: "Aleph Zero",
+    network: "Aleph Zero"
   },
   {
     icon: Astar,
-    network: "Astar",
+    network: "Astar"
   },
   {
     icon: Dot,
-    network: "Polkadot",
-  },
+    network: "Polkadot"
+  }
 ];
 
 export const Tokens = [
   {
     icon: Aleph,
-    token: "AZERO",
+    token: "AZERO"
   },
   {
     icon: Astar,
-    token: "ASTR",
+    token: "ASTR"
   },
   {
     icon: Dot,
-    token: "DOT",
-  },
+    token: "DOT"
+  }
 ];
 
 const mapNetWorkToken = {
   Astar: "ASTR",
   "Aleph Zero": "AZERO",
-  Polkadot: "DOT",
+  Polkadot: "DOT"
 };
 
 function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, setActiveTemplate, value, isDisable }) {
   const Mapping = {
     TokenHolder: setTokenHolder,
-    TransactionActivity: setTransactionActivity,
+    TransactionActivity: setTransactionActivity
   };
 
   const handleChangeNetwork = (value) => {
     Mapping[title]((prev) => {
       return {
         ...prev,
-        network: value,
+        network: value
       };
     });
     handleChangeToken(mapNetWorkToken[value]);
@@ -58,7 +58,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
     Mapping[title]((prev) => {
       return {
         ...prev,
-        categoryToken: value,
+        categoryToken: value
       };
     });
   };
@@ -67,7 +67,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
     Mapping[title]((prev) => {
       return {
         ...prev,
-        minimumAmount: e.target.value,
+        minimumAmount: e.target.value
       };
     });
   };

@@ -2,7 +2,7 @@ import { Avatar, Button, Tooltip } from "antd";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import metadata from "../utils/contract.json";
 
 import { useContract, useTx } from "useink";
@@ -11,7 +11,7 @@ import {
   setStateLeaderboard,
   setStateQuest,
   setStateReward,
-  setStateSetup,
+  setStateSetup
 } from "../redux/stateCampaign";
 import { routes } from "../routes";
 import { instanceAxios } from "../services/api-connect-wallet";
@@ -24,7 +24,7 @@ function Leaderboard({
   setValueQuest,
   setValueReward,
   valueReward,
-  isPrized,
+  isPrized
 }) {
   const param = useParams();
   const [partyTime, setPartyTime] = useState(false);
@@ -34,7 +34,6 @@ function Leaderboard({
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isDetail = useLocation().pathname.includes("detail");
   const [listLuckyMembers, setListLuckyMembers] = useState();
   const [isPrize, setIsPrize] = useState(false);
 
@@ -216,13 +215,13 @@ function Leaderboard({
           size={{ xs: 40, sm: 32, md: 40, lg: 64, xl: 80, xxl: 80 }}
           maxStyle={{
             color: "#f56a00",
-            backgroundColor: "#fde3cf",
+            backgroundColor: "#fde3cf"
           }}
         >
           <Avatar className="" src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=3" />
           <Avatar
             style={{
-              backgroundColor: "#f56a00",
+              backgroundColor: "#f56a00"
             }}
           >
             K
@@ -230,14 +229,14 @@ function Leaderboard({
           <Tooltip title="Ant User" placement="top">
             <Avatar
               style={{
-                backgroundColor: "#87d068",
+                backgroundColor: "#87d068"
               }}
               // icon={<UserOutlined />}
             />
           </Tooltip>
           <Avatar
             style={{
-              backgroundColor: "#1677ff",
+              backgroundColor: "#1677ff"
             }}
             // icon={<AntDesignOutlined />}
           />

@@ -10,7 +10,7 @@ import {
   setStateLeaderboard,
   setStateQuest,
   setStateReward,
-  setStateSetup,
+  setStateSetup
 } from "../redux/stateCampaign";
 
 function Header() {

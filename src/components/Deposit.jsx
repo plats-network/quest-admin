@@ -10,7 +10,6 @@ import { callApiCreate, callApiUpdate } from "../services/callApiCreate";
 import { useDispatch, useSelector } from "react-redux";
 import { setSaveSuccess, setStateDeposit, setStateLeaderboard } from "../redux/stateCampaign";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { main } from "../utils/phala-setup";
 import { checkLogin } from "../utils/checkLogin";
 import clsx from "clsx";
 import { checkValueQuest } from "../utils/checkTickQuest";
@@ -25,7 +24,7 @@ function DepositPayout({
   valueReward,
   isDeposit,
   onActive,
-  timeStart,
+  timeStart
 }) {
   const param = useParams();
   const CONTRACT_ADDRESS_ALPHE = import.meta.env.VITE_CONTRACT_ADDRESS_ALEPH;
@@ -42,12 +41,8 @@ function DepositPayout({
 
   const depositOption = {
     Astar: astarDeposit,
-    "Aleph Zero": alpheDeposit,
+    "Aleph Zero": alpheDeposit
   };
-
-  useEffect(() => {
-    main(dispatch);
-  }, []);
 
   const handleDepositAzero = async () => {
     if (!checkConnectWallet()) {
@@ -66,7 +61,7 @@ function DepositPayout({
     }
   };
 
-  const checkConnectWallet = (currentAccount) => {
+  const checkConnectWallet = () => {
     const account = getAccountAddress();
     if (!account) {
       notifyError("Please connect wallet first!");
@@ -171,7 +166,7 @@ function DepositPayout({
     <div className="">
       <div
         className={clsx({
-          "absolute inset-0 bg-transparent": U.shouldDisable(depositOption[valueReward?.network] || alpheDeposit),
+          "absolute inset-0 bg-transparent": U.shouldDisable(depositOption[valueReward?.network] || alpheDeposit)
         })}
       ></div>
       <p className="text-[16px] md:text-[20px] font-semibold text-white py-4 px-4 rounded-lg borderBlue">
@@ -188,7 +183,7 @@ function DepositPayout({
           className={clsx(
             "bg-blue-500 hover:bg-blue-700 text-white font-medium md:font-bold py-2 px-4 md:py-6 md:px-8 rounded  mt-4 md:mt-8 text-[16px] md:text-[20px] flex items-center mx-auto",
             {
-              hidden: checkStartCampaign(timeStart),
+              hidden: checkStartCampaign(timeStart)
             }
           )}
         >
@@ -204,7 +199,7 @@ function DepositPayout({
                 hidden:
                   checkSaveDisable() ||
                   U.shouldDisable(depositOption[valueReward?.network] || alpheDeposit) ||
-                  !valueReward?.totalReward,
+                  !valueReward?.totalReward
               }
             )}
           >

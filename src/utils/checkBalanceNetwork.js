@@ -1,4 +1,4 @@
-import { notifyError, notifySuccess, notifySuggest } from "./toastify";
+import { notifySuggest } from "./toastify";
 
 const MappingErrorNetwork = {
   "Aleph Zero": "Claim token here >>\n https://faucet.test.azero.dev/",

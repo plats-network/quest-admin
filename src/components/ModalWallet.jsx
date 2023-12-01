@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { useWallet, useAllWallets, useBalance } from "useink";
+import { useWallet, useAllWallets } from "useink";
 import { routes } from "../routes";
 import { hocApiPost } from "../services/api-connect-wallet";
 import { setCurrentAccount } from "../redux/accountSlice";
@@ -18,7 +18,7 @@ const ModalWallet = ({ setIsModal }) => {
       dispatch(setCurrentAccount(account.address));
       const body = {
         wallet_address: account?.address,
-        wallet_name: account?.name,
+        wallet_name: account?.name
       };
       try {
         hocApiPost(routes.authentication.walletRegister, body)().then((res) => {

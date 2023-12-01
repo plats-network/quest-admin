@@ -33,12 +33,12 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     Follow: false,
     Retweet: false,
     Like: false,
-    Hashtag: false,
+    Hashtag: false
   });
 
   const [activeTemplate, setActiveTemplate] = useState({
     TokenHolder: false,
-    TransactionActivity: false,
+    TransactionActivity: false
   });
 
   const [follow, setFollow] = useState(data?.twitterFollow || "");
@@ -51,7 +51,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     data?.tokenHolder || {
       network: "Aleph Zero",
       categoryToken: "AZERO",
-      minimumAmount: "",
+      minimumAmount: ""
     }
   );
 
@@ -59,7 +59,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     data?.transactionActivity || {
       network: "Aleph Zero",
       categoryToken: "AZERO",
-      minimumAmount: "",
+      minimumAmount: ""
     }
   );
 
@@ -87,7 +87,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         twitterHashtag: hashtag,
         twitterHashtagUrl: urlHashtag,
         tokenHolder: tokenHolder,
-        transactionActivity: transactionActivity,
+        transactionActivity: transactionActivity
       });
       setValue("Reward");
       onActive((prev) => {
@@ -119,7 +119,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         twitterLike: like,
         twitterHashtag: hashtag,
         tokenHolder: tokenHolder,
-        transactionActivity: transactionActivity,
+        transactionActivity: transactionActivity
       });
       if (res.data.status === "success") {
         navigate("/campaign");

@@ -21,7 +21,7 @@ function Card({ featured_image, name, content, id, status, finish }) {
           ) : (
             <div
               style={{
-                backgroundColor: status === "Draft" ? "#FF9209" : "#54B435",
+                backgroundColor: status === "Draft" ? "#FF9209" : "#54B435"
               }}
               className="absolute bottom-2 right-2 px-5 py-1 rounded-full text-white"
             >
