@@ -89,7 +89,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     } else {
       notifyError("Please complete all information !");
     }
-  }
+  };
 
   const handleCreateEdit = useCallback(() => {
     dispatch(setStateReward(false));
@@ -116,15 +116,13 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
       notifyError(error?.response?.data?.message?.name[0]);
     }
   };
-                                 
   const handleEdit = useCallback(() => {
     if (isEdit) {
       handleNext();
     } else {
       setIsEdit(true);
     }
-  }, [isEdit]);
-
+  }, []);
 
   const handleNetwork = useCallback((value) => {
     setNetwork(value);
