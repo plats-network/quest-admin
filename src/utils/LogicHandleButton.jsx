@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import Button from "../components/Button";
 import { checkStartCampaign } from "./checkStartCampaign";
 import Group3Button from "../components/GroupButton";
@@ -12,7 +12,7 @@ function logicHandleButton({
   handleCreateEdit,
   handleNext,
   handleSave,
-  state,
+  state
 }) {
   return isDetail ? (
     data?.status === "Draft" ? (

@@ -26,7 +26,7 @@ function Tabs() {
   const mappingNetwork = {
     aleph: "Aleph Zero",
     astar: "Astar",
-    Polkadot: "Polkadot",
+    Polkadot: "Polkadot"
   };
 
   useEffect(() => {
@@ -34,28 +34,28 @@ function Tabs() {
       {
         name: "Setup",
         order: 1,
-        isActive: true,
+        isActive: true
       },
       {
         name: "Quest",
         order: 2,
-        isActive: false,
+        isActive: false
       },
       {
         name: "Reward",
         order: 3,
-        isActive: false,
+        isActive: false
       },
       {
         name: "Deposit",
         order: 4,
-        isActive: false,
+        isActive: false
       },
       {
         name: "Leaderboard",
         order: 5,
-        isActive: false,
-      },
+        isActive: false
+      }
     ]);
   }, []);
 
@@ -79,7 +79,7 @@ function Tabs() {
             transactionActivity = {
               network: networkOptions[item?.block_chain_network],
               categoryToken: item?.category_token,
-              minimumAmount: item?.total_token,
+              minimumAmount: item?.total_token
             };
           }
 
@@ -87,7 +87,7 @@ function Tabs() {
             tokenHolder = {
               network: networkOptions[item?.block_chain_network],
               categoryToken: item?.category_token,
-              minimumAmount: item?.total_token,
+              minimumAmount: item?.total_token
             };
           }
 
@@ -111,7 +111,7 @@ function Tabs() {
           startDate: data?.start_at,
           endDate: data?.end_at,
           urlThumbnail: data?.featured_image,
-          status: data?.status,
+          status: data?.status
         });
         setValueQuest({
           twitterFollow,
@@ -121,7 +121,7 @@ function Tabs() {
           twitterHashtagUrl,
           tokenHolder,
           transactionActivity,
-          status: data?.status,
+          status: data?.status
         });
         setValueReward({
           network: mappingNetwork[data?.block_chain_network],
@@ -129,7 +129,7 @@ function Tabs() {
           categoryToken: data?.category_token,
           totalReward: data?.total_token,
           numberWinner: data?.total_person,
-          status: data?.status,
+          status: data?.status
         });
         setIsDeposit(data?.status === "Active" ? true : false);
       } catch (error) {
@@ -189,7 +189,7 @@ function Tabs() {
         onActive={setData}
         isPrized={isPrize}
       />
-    ),
+    )
   };
 
   return (

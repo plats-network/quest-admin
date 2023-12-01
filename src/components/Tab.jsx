@@ -34,7 +34,7 @@ function Tab({ order, name, isActive, value, setValue, valueSetup, valueQuest, v
       onMouseEnter={handleHover}
       style={{
         backgroundColor: value === name ? "#B3FFAE" : "",
-        cursor: (!isActive && !id) || (name === "Leaderboard" && notAllowLeaderBoard) ? "not-allowed" : "",
+        cursor: (!isActive && !id) || (name === "Leaderboard" && notAllowLeaderBoard) ? "not-allowed" : ""
       }}
       className={clsx(
         "bg-white text-black font-bold px-4 py-2 rounded-lg cursor-pointer transition-colors duration-200 flex items-center gap-2"

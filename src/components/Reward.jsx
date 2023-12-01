@@ -18,18 +18,18 @@ import { checkBalanceNetwork } from "../utils/checkBalanceNetwork";
 const mapNetworkToken = {
   "Aleph Zero": "AZERO",
   Astar: "ASTR",
-  Polkadot: "DOT",
+  Polkadot: "DOT"
 };
 
 const rewardOptions = [
   {
     icon: Token,
-    value: "Token",
+    value: "Token"
   },
   {
     icon: Nft,
-    value: "NFT (Comming Soon)",
-  },
+    value: "NFT (Comming Soon)"
+  }
 ];
 
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive, isDeposit, timeStart }) {
@@ -53,7 +53,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
 
   const balanceOptions = {
     "Aleph Zero": balanceAzero,
-    Astar: balanceAstr,
+    Astar: balanceAstr
   };
 
   useEffect(() => {
@@ -77,7 +77,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         network,
         categoryToken,
         totalReward,
-        numberWinner,
+        numberWinner
       });
       setValue("Deposit");
       onActive((prev) => {
@@ -106,7 +106,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         network,
         categoryToken,
         totalReward,
-        numberWinner,
+        numberWinner
       });
       if (res.data.status === "success") {
         navigate("/campaign");

@@ -19,36 +19,36 @@ const regexHashtag = /^#(\w+)$/;
 // }
 
 export const checkRegexTwitter = (data) => {
-    if (regexTwitter.test(data) || regexX.test(data)){
-        return true;
-    }
-    return false;
-}
+  if (regexTwitter.test(data) || regexX.test(data)) {
+    return true;
+  }
+  return false;
+};
 
 export const validateTaskQuest = (activeTwitter, follow, retweet, like, urlHashtag, hashtag ) => {
-    if (activeTwitter?.Follow && !checkRegexTwitter(follow)) {
-        notifyError("Please enter the correct twitter follow field format")
-        return false;
-    }
+  if (activeTwitter?.Follow && !checkRegexTwitter(follow)) {
+    notifyError("Please enter the correct twitter follow field format");
+    return false;
+  }
 
-    if (activeTwitter?.Retweet && !checkRegexTwitter(retweet)) {
-        notifyError("Please enter the correct twitter retweet field format")
-        return false;
-    }
+  if (activeTwitter?.Retweet && !checkRegexTwitter(retweet)) {
+    notifyError("Please enter the correct twitter retweet field format");
+    return false;
+  }
 
-    if (activeTwitter?.Like && !checkRegexTwitter(like)) {
-        notifyError("Please enter the correct twitter like field format")
-        return false;
-    }
+  if (activeTwitter?.Like && !checkRegexTwitter(like)) {
+    notifyError("Please enter the correct twitter like field format");
+    return false;
+  }
 
-    if (activeTwitter?.Hashtag && !regexHashtag.test(hashtag)) {
-        notifyError("Please enter the correct twitter hashtag format with #")
-        return false;
-    }
+  if (activeTwitter?.Hashtag && !regexHashtag.test(hashtag)) {
+    notifyError("Please enter the correct twitter hashtag format with #");
+    return false;
+  }
 
-    if (activeTwitter?.Hashtag && !checkRegexTwitter(urlHashtag)) {
-        notifyError("Please enter the correct twitter hashtag url field format")
-        return false;
-    }
-    return true;
-}
+  if (activeTwitter?.Hashtag && !checkRegexTwitter(urlHashtag)) {
+    notifyError("Please enter the correct twitter hashtag url field format");
+    return false;
+  }
+  return true;
+};

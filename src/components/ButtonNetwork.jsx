@@ -2,7 +2,7 @@ import { Button } from "antd";
 
 const Map = {
   "Token Holder": "TokenHolder",
-  "Transaction Activity": "TransactionActivity",
+  "Transaction Activity": "TransactionActivity"
 };
 
 function ButtonNetwork({ children, setActiveTemplate, countRef }) {
@@ -10,12 +10,12 @@ function ButtonNetwork({ children, setActiveTemplate, countRef }) {
     const scrollHeight = 500 * countRef.current;
     window.scrollTo({
       top: scrollHeight,
-      behavior: "smooth",
+      behavior: "smooth"
     });
     setActiveTemplate((prev) => {
       return {
         ...prev,
-        [Map[children]]: true,
+        [Map[children]]: true
       };
     });
     countRef.current = 2;

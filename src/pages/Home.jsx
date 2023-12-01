@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { LogoQuest, Banner } from "../assets/img";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -59,6 +59,7 @@ function Home() {
               href="https://plats-quest.vaix.group/"
               target="_blank"
               className="btnGradient1 cursor-pointer py-2 px-4 md:py-4 md:px-10 rounded-lg text-[16px] md:text-[20px] font-normal md:font-bold text-white"
+              rel="noreferrer"
             >
               {" "}
               Start Earning

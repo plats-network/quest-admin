@@ -7,7 +7,7 @@ const Network = {
   "Astar": "astar",
   "Polkadot": "polkadot"
 };
-export const callApiCreate = async (valueSetup, valueQuest, valueReward, status, setValue) => {
+export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
   const tasks = [];
   if (valueQuest?.tokenHolder?.minimumAmount) {
     tasks.push({

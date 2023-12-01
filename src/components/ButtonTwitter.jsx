@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "antd";
 import { FaTwitter } from "react-icons/fa";
 
@@ -8,7 +8,7 @@ function ButtonTwitter({ children, setActionTwitter }) {
     setActionTwitter((prev) => {
       return {
         ...prev,
-        [children]: true,
+        [children]: true
       };
     });
   };

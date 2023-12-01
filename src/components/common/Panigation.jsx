@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function Pagination({ pages, setCurrentPage, currentPage }) {
   const [currentButton, setCurrentButton] = useState(1);

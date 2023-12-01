@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import React, { memo } from "react";
+import { memo } from "react";
 
 function BlockInput({ name, value, setAction, placeholder = "https://twitter.com/", isDisable }) {
   return (

@@ -1,3 +1,3 @@
 export const getAccountAddress = () => {
-    return JSON.parse(localStorage.getItem("Flipper"))?.address
-}
+  return JSON.parse(localStorage.getItem("Flipper"))?.address;
+};
