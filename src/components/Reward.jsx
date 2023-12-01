@@ -21,6 +21,17 @@ const mapNetworkToken = {
   Polkadot: "DOT",
 };
 
+const rewardOptions = [
+  {
+    icon: Token,
+    value: "Token",
+  },
+  {
+    icon: Nft,
+    value: "NFT (Comming Soon)",
+  },
+];
+
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive, isDeposit, timeStart }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
   const [network, setNetwork] = useState(data?.network || "Aleph Zero");
@@ -39,17 +50,6 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const rewardOptions = [
-    {
-      icon: Token,
-      value: "Token",
-    },
-    {
-      icon: Nft,
-      value: "NFT (Comming Soon)",
-    },
-  ];
 
   const balanceOptions = {
     "Aleph Zero": balanceAzero,
@@ -89,7 +89,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     } else {
       notifyError("Please complete all information !");
     }
-  };
+  }
 
   const handleCreateEdit = useCallback(() => {
     dispatch(setStateReward(false));
@@ -116,13 +116,15 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
       notifyError(error?.response?.data?.message?.name[0]);
     }
   };
+                                 
   const handleEdit = useCallback(() => {
     if (isEdit) {
       handleNext();
     } else {
       setIsEdit(true);
     }
-  }, []);
+  }, [isEdit]);
+
 
   const handleNetwork = useCallback((value) => {
     setNetwork(value);
