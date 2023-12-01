@@ -1,7 +1,7 @@
 import { Input, Select } from "antd";
 import "antd/dist/antd";
 import { NetWorks, Tokens } from "./ActionWeb3/TemplateWeb3";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { notifyError } from "../utils/toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -91,9 +91,9 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
     }
   };
 
-  const handleCreateEdit = () => {
+  const handleCreateEdit = useCallback(() => {
     dispatch(setStateReward(false));
-  };
+  }, []);
 
   const handleSave = async () => {
     if (!checkLogin()) {
@@ -116,18 +116,18 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
       notifyError(error?.response?.data?.message?.name[0]);
     }
   };
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     if (isEdit) {
       handleNext();
     } else {
       setIsEdit(true);
     }
-  };
+  }, []);
 
-  const handleNetwork = (value) => {
+  const handleNetwork = useCallback((value) => {
     setNetwork(value);
     setCategoryToken(mapNetworkToken[value]);
-  };
+  }, []);
   return (
     <div className="">
       <div className="py-2 px-4 md:py-6 md:px-8 rounded-lg border-[1px] border-[#279EFF]">
