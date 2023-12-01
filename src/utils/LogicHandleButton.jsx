@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Button from "../components/Button";
 import { checkStartCampaign } from "./checkStartCampaign";
 import Group3Button from "../components/GroupButton";
@@ -39,4 +39,4 @@ function logicHandleButton({
   );
 }
 
-export default logicHandleButton;
+export default memo(logicHandleButton);
