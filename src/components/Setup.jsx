@@ -3,20 +3,21 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Upload } from "../assets/img";
 import { setSaveSuccess, setStateSetup } from "../redux/stateCampaign";
-import { callApiCreate } from "../services/callApiCreate";
+import { callApiCreate, callApiUpdate } from "../services/callApiCreate";
 import LogicHandleButton from "../utils/LogicHandleButton";
 import { checkLogin } from "../utils/checkLogin";
 import { checkTimeCampaign } from "../utils/checkTimeCampaign";
 import { handleCheckDisable } from "../utils/handleDisableTask";
-import { notifyError } from "../utils/toastify";
+import { notifyError, notifySuccess } from "../utils/toastify";
 
 const IMAGE_MAX_SIZE = 5000000;
 
 function Setup({ setValue, setValueSetup, data, onActive }) {
+  const param = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isDetail = location.pathname.includes("detail");
@@ -89,10 +90,14 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
       return;
     }
     if (title && description && startDate && endDate) {
-      const res = await callApiCreate({ title, description, startDate, endDate, base64Thumbnail });
-      if (res.data.status === "success") {
-        navigate("/campaign");
-        dispatch(setSaveSuccess(true));
+      try {
+        const res = await callApiCreate({ title, description, startDate, endDate, base64Thumbnail });
+        if (res.data.status === "success") {
+          navigate("/campaign");
+          dispatch(setSaveSuccess(true));
+        }
+      } catch (error) {
+        notifyError(error.message);
       }
     } else {
       notifyError("Please complete all information !");
@@ -104,6 +109,26 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
       handleNext();
     } else {
       setIsEdit(true);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const res = await callApiUpdate(param?.id, {
+        title,
+        description,
+        startDate,
+        endDate,
+        base64Thumbnail
+      });
+      if (res.data?.status === "success") {
+        notifySuccess("Update campaign successfully");
+        setTimeout(() => {
+          navigate("/campaign");
+        }, 1200);
+      }
+    } catch (error) {
+      notifyError("Update campaign Failed");
     }
   };
 
@@ -203,9 +228,10 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
         isEdit={isEdit}
         handleEdit={handleEdit}
         startDate={startDate}
+        onUpdate={handleUpdate}
         handleCreateEdit={handleCreateEdit}
         handleNext={handleNext}
-        handleSave={handleSave}
+        onSave={handleSave}
         state={stateSetup}
       />
 

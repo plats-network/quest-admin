@@ -10,6 +10,7 @@ import { listTabs } from "../utils/listTabs";
 import { networkOptions } from "../utils/network";
 import { useQuery } from "@tanstack/react-query";
 import { getCampaign } from "../services/getCampaign";
+import BodyDetailSkeleton from "./BodyDetailSkeleton";
 
 function Tabs() {
   const [value, setValue] = useState("Setup");
@@ -25,7 +26,7 @@ function Tabs() {
 
   const mappingNetwork = {
     aleph: "Aleph Zero",
-    astar: "Astar",
+    Astar: "Astar",
     Polkadot: "Polkadot"
   };
 
@@ -62,8 +63,8 @@ function Tabs() {
   const { data: campaign, isLoading } = useQuery({
     queryKey: ["detailCampaign", param.id],
     queryFn: () => getCampaign(param.id),
-    staleTime: 1000 * 30,
-    enabled: !!param.id
+    enabled: !!param.id,
+    refetchOnWindowFocus: false
   });
 
   useEffect(() => {
@@ -197,7 +198,7 @@ function Tabs() {
     )
   };
   if (isLoading) {
-    return <div className="loading-indicator"></div>;
+    return <BodyDetailSkeleton />;
   }
 
   return (
