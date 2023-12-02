@@ -5,11 +5,11 @@ import Quest from "./Quest";
 import Deposit from "./Deposit";
 import Leaderboard from "./Leaderboard";
 import { useParams } from "react-router-dom";
-import { routes } from "../routes";
-import { instanceAxios } from "../services/api-connect-wallet";
 import Tab from "./Tab";
 import { listTabs } from "../utils/listTabs";
 import { networkOptions } from "../utils/network";
+import { useQuery } from "@tanstack/react-query";
+import { getCampaign } from "../services/getCampaign";
 
 function Tabs() {
   const [value, setValue] = useState("Setup");
@@ -59,6 +59,13 @@ function Tabs() {
     ]);
   }, []);
 
+  const { data: campaign, isLoading } = useQuery({
+    queryKey: ["detailCampaign", param.id],
+    queryFn: () => getCampaign(param.id),
+    staleTime: 1000 * 30,
+    enabled: !!param.id
+  });
+
   useEffect(() => {
     const fetch = async () => {
       let twitterFollow = null;
@@ -69,11 +76,9 @@ function Tabs() {
       let tokenHolder = null;
       let transactionActivity = null;
       try {
-        const { data } = await instanceAxios.get(routes.quest.getDetailCampaign(param.id));
-        console.log("data: ", data);
-        const tasks = data?.tasks;
-        setTimeStart(data?.start_at);
-        setIsPrize(data.is_prize);
+        const tasks = campaign?.tasks;
+        setTimeStart(campaign?.start_at);
+        setIsPrize(campaign?.is_prize);
         tasks?.forEach((item) => {
           if (item?.entry_type === "TRANSFER_ACTIVITY") {
             transactionActivity = {
@@ -106,12 +111,12 @@ function Tabs() {
           }
         });
         setValueSetup({
-          title: data?.name,
-          description: data?.content,
-          startDate: data?.start_at,
-          endDate: data?.end_at,
-          urlThumbnail: data?.featured_image,
-          status: data?.status
+          title: campaign?.name,
+          description: campaign?.content,
+          startDate: campaign?.start_at,
+          endDate: campaign?.end_at,
+          urlThumbnail: campaign?.featured_image,
+          status: campaign?.status
         });
         setValueQuest({
           twitterFollow,
@@ -121,17 +126,17 @@ function Tabs() {
           twitterHashtagUrl,
           tokenHolder,
           transactionActivity,
-          status: data?.status
+          status: campaign?.status
         });
         setValueReward({
-          network: mappingNetwork[data?.block_chain_network],
-          rewardType: data?.reward_type,
-          categoryToken: data?.category_token,
-          totalReward: data?.total_token,
-          numberWinner: data?.total_person,
-          status: data?.status
+          network: mappingNetwork[campaign?.block_chain_network],
+          rewardType: campaign?.reward_type,
+          categoryToken: campaign?.category_token,
+          totalReward: campaign?.total_token,
+          numberWinner: campaign?.total_person,
+          status: campaign?.status
         });
-        setIsDeposit(data?.status === "Active" ? true : false);
+        setIsDeposit(campaign?.status === "Active" ? true : false);
       } catch (error) {
         throw new Error(error.message);
       }
@@ -139,7 +144,7 @@ function Tabs() {
     if (param?.id) {
       fetch();
     }
-  }, [param?.id]);
+  }, [campaign]);
   const Options = {
     Setup: <Setup setValue={setValue} setValueSetup={setValueSetup} data={valueSetup} onActive={setData} />,
     Quest: (
@@ -191,6 +196,9 @@ function Tabs() {
       />
     )
   };
+  if (isLoading) {
+    return <div className="loading-indicator"></div>;
+  }
 
   return (
     <>

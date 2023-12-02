@@ -20,7 +20,6 @@ function Setup({ setValue, setValueSetup, data, onActive }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isDetail = location.pathname.includes("detail");
-  // const isDetail = false;
   const [title, setTitle] = useState(data?.title || "");
   const [description, setDescription] = useState(data?.description || "");
   const [startDate, setStartDate] = useState(data?.startDate || "");

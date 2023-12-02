@@ -1,22 +1,30 @@
-import { routes } from "../routes";
-import useGetApi from "../utils/hooks/useGetApi";
 import { lazy, Suspense, useEffect, useState } from "react";
 import Pagination from "./common/Panigation";
+import { useQuery } from "@tanstack/react-query";
 const Card = lazy(() => import("./Card"));
+import { useSelector } from "react-redux";
+import { getCampaigns } from "../services/getCampaigns";
 
 const NUMBER_ITEM_PAGE = 4;
 
 function BodyQuest() {
-  const res = useGetApi(routes.quest.getCollection);
-  const data = res?.data;
-  // const data = "";
+  const { token } = useSelector((state) => state.stateCampaign);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["listCampaign", token],
+    queryFn: () => getCampaigns(token),
+    refetchOnWindowFocus: false
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [currentData, setCurrentData] = useState([]);
 
   useEffect(() => {
-    handlePages();
-  }, [data, currentPage]);
+    if (data?.length) {
+      handlePages();
+    }
+  }, [data?.length, currentPage]);
 
   const handlePages = () => {
     const total = Math.ceil(data?.length / NUMBER_ITEM_PAGE);
@@ -26,6 +34,10 @@ function BodyQuest() {
     setCurrentData(currentData);
     setTotalPage(total);
   };
+
+  if (isLoading) {
+    return <div className="loading-indicator"></div>;
+  }
 
   return (
     <div className="container overflow-hidden">
