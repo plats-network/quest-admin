@@ -8,6 +8,7 @@ const Network = {
   "Polkadot": "polkadot"
 };
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
+  console.log("xin chao");
   const tasks = [];
   if (valueQuest?.tokenHolder?.minimumAmount) {
     tasks.push({

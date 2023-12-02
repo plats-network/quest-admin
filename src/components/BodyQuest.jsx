@@ -1,21 +1,31 @@
-import { routes } from "../routes";
-import useGetApi from "../utils/hooks/useGetApi";
 import { lazy, Suspense, useEffect, useState } from "react";
 import Pagination from "./common/Panigation";
+import { useQuery } from "@tanstack/react-query";
 const Card = lazy(() => import("./Card"));
+import { useSelector } from "react-redux";
+import { getCampaigns } from "../services/getCampaigns";
+import CardSkeleton from "./CardSkeleton";
 
 const NUMBER_ITEM_PAGE = 4;
 
 function BodyQuest() {
-  const res = useGetApi(routes.quest.getCollection);
-  const data = res?.data;
-  // const data = "";
+  const { token } = useSelector((state) => state.stateCampaign);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["listCampaign", token],
+    queryFn: () => getCampaigns(token),
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 10
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [currentData, setCurrentData] = useState([]);
 
   useEffect(() => {
-    handlePages();
+    if (data?.length) {
+      handlePages();
+    }
   }, [data, currentPage]);
 
   const handlePages = () => {
@@ -27,9 +37,24 @@ function BodyQuest() {
     setTotalPage(total);
   };
 
+  if (isLoading) {
+    return (
+      <div className="container overflow-hidden">
+        <h1 className="px-2 text-white border-b-2 border-[#0E21A0] mb-12 pb-2 title">Campaign</h1>
+        <div className="px-2 grid grid-cols-1 md:grid-cols-4 gap-4 justify-center items-center max-w-[300px] md:max-w-max mx-auto">
+          {Array(4)
+            .fill(0)
+            .map(() => (
+              <CardSkeleton key={crypto.randomUUID()} />
+            ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container overflow-hidden">
-      <h1 className="px-2 text-[20px] md:text-[30px] text-white border-b-2 border-[#0E21A0] mb-12 pb-2">Campaign</h1>
+      <h1 className="px-2 text-white border-b-2 border-[#0E21A0] mb-12 pb-2 title">Campaign</h1>
       {currentData?.length > 0 ? (
         <Suspense fallback={<div className="loading-indicator flex items-center justify-center"></div>}>
           <div className="px-2 grid grid-cols-1 md:grid-cols-4 gap-4 justify-center items-center max-w-[300px] md:max-w-max mx-auto">

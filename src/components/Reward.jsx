@@ -3,11 +3,11 @@ import "antd/dist/antd";
 import { NetWorks, Tokens } from "./ActionWeb3/TemplateWeb3";
 import { useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { notifyError } from "../utils/toastify";
+import { notifyError, notifySuccess } from "../utils/toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsSave, setResetReward, setSaveSuccess, setStateReward } from "../redux/stateCampaign";
-import { callApiCreate } from "../services/callApiCreate";
-import { useLocation, useNavigate } from "react-router-dom";
+import { callApiCreate, callApiUpdate } from "../services/callApiCreate";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { checkLogin } from "../utils/checkLogin";
 import { Nft, Token } from "../assets/img";
 import { handleCheckDisable, handleCheckDisableRewards } from "../utils/handleDisableTask";
@@ -41,6 +41,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   const { stateReward, resetReward } = useSelector((state) => state.stateCampaign);
   const [isEdit, setIsEdit] = useState(false);
   const isDetail = useLocation().pathname.includes("detail");
+  const param = useParams();
 
   const { account } = useWallet();
   const balanceAzeroObject = useBalance(account, "aleph-testnet");
@@ -94,6 +95,26 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
   const handleCreateEdit = useCallback(() => {
     dispatch(setStateReward(false));
   }, []);
+
+  const handleUpdate = async () => {
+    try {
+      const res = await callApiUpdate(param?.id, valueSetup, valueQuest, {
+        rewardType,
+        network,
+        categoryToken,
+        totalReward,
+        numberWinner
+      });
+      if (res.data?.status === "success") {
+        notifySuccess("Update campaign successfully");
+        setTimeout(() => {
+          navigate("/campaign");
+        }, 1200);
+      }
+    } catch (error) {
+      notifyError("Update campaign Failed");
+    }
+  };
 
   const handleSave = async () => {
     if (!checkLogin()) {
@@ -249,9 +270,10 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
         isEdit={isEdit}
         handleEdit={handleEdit}
         startDate={timeStart}
+        onUpdate={handleUpdate}
         handleCreateEdit={handleCreateEdit}
         handleNext={handleNext}
-        handleSave={handleSave}
+        onSave={handleSave}
         state={stateReward}
       />
       <ToastContainer />

@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { setSaveSuccess, setStateQuest } from "../redux/stateCampaign";
-import { callApiCreate } from "../services/callApiCreate";
+import { callApiCreate, callApiUpdate } from "../services/callApiCreate";
 import { checkAllowedNext } from "../utils/checkAllowNextQuest";
 import { checkLogin } from "../utils/checkLogin";
 import { handleCheckDisable } from "../utils/handleDisableTask";
-import { notifyError } from "../utils/toastify";
+import { notifyError, notifySuccess } from "../utils/toastify";
 import { validateTaskQuest } from "../utils/validateQuest";
 import TemplateWeb3 from "./ActionWeb3/TemplateWeb3";
 import ButtonNetwork from "./ButtonNetwork";
@@ -23,6 +23,7 @@ const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
 const ActionWeb3 = ["Token Holder", "Transaction Activity"];
 
 function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart }) {
+  const param = useParams();
   const isDetail = useLocation().pathname.includes("detail");
   const countRef = useRef(1);
   const navigate = useNavigate();
@@ -105,6 +106,28 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     dispatch(setStateQuest(false));
   };
 
+  const handleUpdate = async () => {
+    try {
+      const res = await callApiUpdate(param?.id, valueSetup, {
+        twitterFollow: follow,
+        twitterRetweet: retweet,
+        twitterLike: like,
+        twitterHashtag: hashtag,
+        twitterHashtagUrl: urlHashtag,
+        tokenHolder: tokenHolder,
+        transactionActivity: transactionActivity
+      });
+      if (res.data?.status === "success") {
+        notifySuccess("Update campaign successfully");
+        setTimeout(() => {
+          navigate("/campaign");
+        }, 1200);
+      }
+    } catch (error) {
+      notifyError("Update campaign Failed");
+    }
+  };
+
   const handleSave = async () => {
     if (!checkLogin()) {
       notifyError("Please connect wallet first");
@@ -126,7 +149,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         dispatch(setSaveSuccess(true));
       }
     } catch (error) {
-      notifyError(error?.response?.data?.message?.name[0]);
+      notifyError(error.message);
     }
   };
 
@@ -230,9 +253,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         isEdit={isEdit}
         handleEdit={handleEdit}
         startDate={timeStart}
+        onUpdate={handleUpdate}
         handleCreateEdit={handleCreateEdit}
         handleNext={handleNext}
-        handleSave={handleSave}
+        onSave={handleSave}
         state={stateQuest}
       />
       <ToastContainer />

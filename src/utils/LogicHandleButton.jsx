@@ -1,37 +1,60 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import Button from "../components/Button";
 import { checkStartCampaign } from "./checkStartCampaign";
 import Group3Button from "../components/GroupButton";
 
-function logicHandleButton({
+function LogicHandleButton({
   isDetail,
   data,
   isEdit,
   handleEdit,
   startDate,
+  onUpdate,
   handleCreateEdit,
   handleNext,
-  handleSave,
+  onSave,
   state
 }) {
+  const [isEnable, setIsEnable] = useState(false);
+
+  useEffect(() => {
+    setIsEnable(false);
+  }, []);
+
+  const handleUpdate = () => {
+    onUpdate();
+    setIsEnable(true);
+  };
+
+  const handleSave = () => {
+    onSave();
+    setIsEnable(true);
+  };
+
   return isDetail ? (
     data?.status === "Draft" ? (
       <div className="flex items-center justify-center">
-        <Button
-          style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-          name={isEdit ? "Save" : "Edit"}
-          onClick={handleEdit}
-        />
+        {isEdit ? (
+          <div className="space-x-10">
+            <Button disabled={isEnable} style={{ backgroundColor: "#279EFF" }} name={"Save"} onClick={handleUpdate} />
+            <Button className="bg-[#3CCF4E]" name="Next" onClick={handleEdit} />
+          </div>
+        ) : (
+          <Button style={{ backgroundColor: "#D83F31" }} name={"Edit"} onClick={handleEdit} />
+        )}
       </div>
     ) : checkStartCampaign(startDate) ? (
       ""
     ) : (
       <div className="flex items-center justify-center">
-        <Button
-          style={{ backgroundColor: isEdit ? "#279EFF" : "#D83F31" }}
-          name={isEdit ? "Save" : "Edit"}
-          onClick={handleEdit}
-        />
+        {isEdit ? (
+          <div className="space-x-10">
+            <Button disabled={isEnable} style={{ backgroundColor: "#279EFF" }} name={"Save"} onClick={handleSave} />
+            <Button className="bg-[#3CCF4E]" name="Next" onClick={handleEdit} />
+          </div>
+        ) : (
+          <Button style={{ backgroundColor: "#D83F31" }} name={"Edit"} onClick={handleEdit} />
+        )}
       </div>
     )
   ) : (
@@ -39,4 +62,4 @@ function logicHandleButton({
   );
 }
 
-export default memo(logicHandleButton);
+export default memo(LogicHandleButton);

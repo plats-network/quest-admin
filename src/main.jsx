@@ -6,8 +6,11 @@ import { UseInkProvider } from "useink";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import store from "./redux/index";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { AlephTestnet, PhalaTestnet, ShibuyaTestnet } from "useink/chains";
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -44,7 +47,9 @@ root.render(
       }}
     >
       <Provider store={store}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </Provider>
     </ConfigProvider>
   </UseInkProvider>

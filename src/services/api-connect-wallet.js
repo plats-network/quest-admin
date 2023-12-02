@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const methodLoading = ["patch", "post"]
+
 
 export const instanceAxios = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -8,7 +10,9 @@ export const instanceAxios = axios.create({
 
 instanceAxios.interceptors.request.use(
   function (config) {
-    document.body.classList.add("loading-indicator");
+    if (methodLoading.includes(config.method)) {
+      document.body.classList.add("loading-indicator");
+    }
     const accessToken = localStorage.getItem("token");
     if (accessToken) {
       config.headers["Content-Type"] = "application/json";
@@ -24,33 +28,12 @@ instanceAxios.interceptors.request.use(
 instanceAxios.interceptors.response.use(
   function (response) {
     document.body.classList.remove("loading-indicator");
+
     return response;
   },
   async function (error) {
     document.body.classList.remove("loading-indicator");
-    // const originConfig = error.config;
-    // if (
-    //     error?.response?.status === 401 &&
-    //     error.response.data.msg.detail === TOKEN_EXPIRED_MESSAGE &&
-    //     !originConfig._retry
-    // ) {
-    //     originConfig._retry = true;
-    //     try {
-    //         window.refreshToken = window.refreshToken ? window.refreshToken : refreshAccessToken();
-    //         await window.refreshToken;
-    //         window.refreshToken = null;
-    //         return instanceAxios(originConfig);
-    //     } catch (error) {
-    //         window.location.href = "/login";
-    //         TokenService.removeToken();
-    //         return Promise.reject(error);
-    //     }
-    // }
-    // if (error?.response?.status === 401 && error.response.data.msg.detail === TWO_ACCOUNT_LOGIN) {
-    //     window.location.href = "/login";
-    //     TokenService.removeToken();
-    //     return Promise.reject(error);
-    // }
+
     return Promise.reject(error);
   }
 );
