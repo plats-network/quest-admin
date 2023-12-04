@@ -50,7 +50,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
 
   const [tokenHolder, setTokenHolder] = useState(
     data?.tokenHolder || {
-      network: "Aleph Zero",
+      network: "Aleph Zero(Testnet)",
       categoryToken: "AZERO",
       minimumAmount: ""
     }
@@ -58,7 +58,7 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
 
   const [transactionActivity, setTransactionActivity] = useState(
     data?.transactionActivity || {
-      network: "Aleph Zero",
+      network: "Aleph Zero(Testnet)",
       categoryToken: "AZERO",
       minimumAmount: ""
     }
