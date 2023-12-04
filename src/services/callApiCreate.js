@@ -5,7 +5,9 @@ import dayjs from "dayjs";
 const Network = {
   "Aleph Zero": "aleph",
   "Astar": "astar",
-  "Polkadot": "polkadot"
+  "Astar(Testnet)": "astar_testnet",
+  "Polkadot": "polkadot",
+  "Aleph Zero(Testnet)": "aleph_testnet"
 };
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
   console.log("xin chao");

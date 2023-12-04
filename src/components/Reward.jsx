@@ -17,7 +17,9 @@ import { checkBalanceNetwork } from "../utils/checkBalanceNetwork";
 
 const mapNetworkToken = {
   "Aleph Zero": "AZERO",
+  "Aleph Zero(Testnet)": "AZERO",
   Astar: "ASTR",
+  "Astar(Testnet)": "ASTR",
   Polkadot: "DOT"
 };
 
@@ -34,7 +36,7 @@ const rewardOptions = [
 
 function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActive, isDeposit, timeStart }) {
   const [rewardType, setRewardType] = useState(data?.rewardType || "Token");
-  const [network, setNetwork] = useState(data?.network || "Aleph Zero");
+  const [network, setNetwork] = useState(data?.network || "Aleph Zero(Testnet)");
   const [categoryToken, setCategoryToken] = useState(data?.categoryToken || "AZERO");
   const [totalReward, setTotalReward] = useState(data?.totalReward || "");
   const [numberWinner, setNumberWinner] = useState(data?.numberWinner || 1);
@@ -51,10 +53,9 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const balanceOptions = {
-    "Aleph Zero": balanceAzero,
-    Astar: balanceAstr
+    "Aleph Zero(Testnet)": balanceAzero,
+    "Astar(Testnet)": balanceAstr
   };
 
   useEffect(() => {
@@ -164,7 +165,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
               onChange={handleNetwork}
             >
               {NetWorks.map((item) => (
-                <Select.Option key={item.network} value={item.network} label={item.network}>
+                <Select.Option disabled={item.unAvalibale} key={item.network} value={item.network} label={item.network}>
                   <div className="text-[14px] md:text-[18px] flex items-center">
                     <img
                       className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
