@@ -5,15 +5,28 @@ import { FaWindowClose } from "react-icons/fa";
 export const NetWorks = [
   {
     icon: Aleph,
-    network: "Aleph Zero"
+    network: "Aleph Zero(Testnet)"
   },
   {
     icon: Astar,
-    network: "Astar"
+    network: "Astar(Testnet)"
   },
   {
+    icon: Aleph,
+    network: "Aleph Zero",
+    unAvalibale: true
+  },
+
+  {
+    icon: Astar,
+    network: "Astar",
+    unAvalibale: true
+  },
+
+  {
     icon: Dot,
-    network: "Polkadot"
+    network: "Polkadot",
+    unAvalibale: true
   }
 ];
 
@@ -34,7 +47,9 @@ export const Tokens = [
 
 const mapNetWorkToken = {
   Astar: "ASTR",
+  "Astar(Testnet)": "ASTR",
   "Aleph Zero": "AZERO",
+  "Aleph Zero(Testnet)": "AZERO",
   Polkadot: "DOT"
 };
 

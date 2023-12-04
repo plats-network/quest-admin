@@ -40,8 +40,8 @@ function DepositPayout({
   const navigate = useNavigate();
 
   const depositOption = {
-    Astar: astarDeposit,
-    "Aleph Zero": alpheDeposit
+    "Astar(Testnet)": astarDeposit,
+    "Aleph Zero(Testnet)": alpheDeposit
   };
 
   const handleDepositAzero = async () => {
@@ -71,7 +71,7 @@ function DepositPayout({
   };
 
   const handleDeposit = async () => {
-    if (valueReward?.network === "Astar") {
+    if (valueReward?.network === "Astar(Testnet)") {
       await handleDepositAstar();
     } else {
       await handleDepositAzero();
