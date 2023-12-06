@@ -40,7 +40,7 @@ root.render(
           Select: {
             colorBgContainer: "transparent",
             colorText: "white",
-            colorBgElevated: "rgba(14, 33, 160, 0.6)",
+            colorBgElevated: "rgba(14, 33, 160)",
             colorTextPlaceholder: "#DFA878" //
           }
         }
