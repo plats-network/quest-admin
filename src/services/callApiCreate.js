@@ -10,12 +10,11 @@ const Network = {
   "Aleph Zero(Testnet)": "aleph_testnet"
 };
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
-  console.log("xin chao");
   const tasks = [];
   if (valueQuest?.tokenHolder?.minimumAmount) {
     tasks.push({
       name: "Token Holder",
-      block_chain_network:Network[valueQuest?.transactionActivity?.network],
+      block_chain_network:Network[valueQuest?.tokenHolder?.network],
       total_token: valueQuest?.tokenHolder?.minimumAmount,
       category_token: valueQuest?.tokenHolder?.categoryToken,
       status: "Active",
