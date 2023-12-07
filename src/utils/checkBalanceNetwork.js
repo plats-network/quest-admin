@@ -10,5 +10,9 @@ export const checkBalanceNetwork = (valueReward, balance, network) => {
     notifySuggest(`You don't have enough balance?\n ${MappingErrorNetwork[network]}`);
     return false;
   }
+  if (valueReward <= 0) {
+    notifySuggest("You must deposit an amount of tokens greater than 0");
+    return false;
+  }
   return true;
 };
