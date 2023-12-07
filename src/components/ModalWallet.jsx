@@ -6,6 +6,7 @@ import { setCurrentAccount } from "../redux/accountSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../redux/stateCampaign";
+import { sortWallet } from "../utils/sortWallet";
 
 const ModalWallet = ({ setIsModal }) => {
   const dispatch = useDispatch();
