@@ -10,8 +10,9 @@ import { setToken } from "../redux/stateCampaign";
 const ModalWallet = ({ setIsModal }) => {
   const dispatch = useDispatch();
   const { account, connect } = useWallet();
-  const wallets = useAllWallets();
+  let wallets = useAllWallets();
   const navigate = useNavigate();
+  wallets = [...sortWallet(wallets)];
 
   useEffect(() => {
     if (account?.address) {
