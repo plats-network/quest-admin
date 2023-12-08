@@ -56,7 +56,7 @@ function Home() {
           </div>
           <div className="flex items-center gap-4 md:gap-10 mt-10">
             <a
-              href="https://plats-quest.vaix.group/"
+              href="https://hackathon.plats.quest/"
               target="_blank"
               className="btnGradient1 cursor-pointer py-2 px-4 md:py-4 md:px-10 rounded-lg text-[16px] md:text-[20px] font-normal md:font-bold text-white"
               rel="noreferrer"
