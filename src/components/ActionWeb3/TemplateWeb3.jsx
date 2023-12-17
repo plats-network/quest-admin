@@ -1,5 +1,5 @@
 import { Input, Select } from "antd";
-import { Aleph, Astar, Dot } from "../../assets/img";
+import { Aleph, Astar, Dot, Acala, Moonbeam } from "../../assets/img";
 import { FaWindowClose } from "react-icons/fa";
 
 export const NetWorks = [
@@ -27,6 +27,18 @@ export const NetWorks = [
     icon: Dot,
     network: "Polkadot",
     unAvalibale: true
+  },
+
+  {
+    icon: Acala,
+    network: "Acala",
+    unAvalibale: true
+  },
+
+  {
+    icon: Moonbeam,
+    network: "Moonbeam",
+    unAvalibale: true
   }
 ];
 
@@ -42,6 +54,14 @@ export const Tokens = [
   {
     icon: Dot,
     token: "DOT"
+  },
+  {
+    icon: Acala,
+    token: "ACA"
+  },
+  {
+    icon: Moonbeam,
+    token: "GLMR"
   }
 ];
 
@@ -50,7 +70,9 @@ const mapNetWorkToken = {
   "Astar(Testnet)": "ASTR",
   "Aleph Zero": "AZERO",
   "Aleph Zero(Testnet)": "AZERO",
-  Polkadot: "DOT"
+  Polkadot: "DOT",
+  Acala: "ACA",
+  Moonbeam: "GLMR"
 };
 
 function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, setActiveTemplate, value, isDisable }) {
@@ -91,7 +113,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
     <div className="borderBlue rounded-lg p-2 md:py-4 md:px-6 mb-4 relative">
       <h1 className="text-[16px] md:text-[24px] font-semibold text-white">{title}</h1>
       <div className="flex flex-col md:flex-row items-start justify-between gap-4 md:gap-10">
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full overflow-y-auto">
           <label className="heading">Network</label>
           <Select
             disabled={isDisable}
@@ -104,7 +126,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
               <Select.Option key={item.network} value={item.network} label={item.network}>
                 <div className="text-[14px] md:text-[18px] flex items-center">
                   <img
-                    className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
+                    className="w-[24px] h-[24px] md:w-[36px] md:h-[36px] rounded-full mr-2"
                     src={item.icon}
                     alt="icon"
                     loading="lazy"
@@ -129,7 +151,7 @@ function TemplateWeb3({ title, label, setTokenHolder, setTransactionActivity, se
               <Select.Option key={item.token} value={item.network} label={item.network}>
                 <div className="text-[14px] md:text-[18px] flex items-center">
                   <img
-                    className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
+                    className="w-[24px] h-[24px] md:w-[36px] md:h-[36px] rounded-full mr-2"
                     src={item.icon}
                     alt="icon"
                   />

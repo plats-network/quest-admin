@@ -20,7 +20,9 @@ const mapNetworkToken = {
   "Aleph Zero(Testnet)": "AZERO",
   Astar: "ASTR",
   "Astar(Testnet)": "ASTR",
-  Polkadot: "DOT"
+  Polkadot: "DOT",
+  Acala: "ACA",
+  Moonbeam: "GLMR"
 };
 
 const rewardOptions = [
@@ -168,7 +170,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
                 <Select.Option disabled={item.unAvalibale} key={item.network} value={item.network} label={item.network}>
                   <div className="text-[14px] md:text-[18px] flex items-center">
                     <img
-                      className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
+                      className="w-[24px] h-[24px] md:w-[36px] md:h-[36px] rounded-full mr-2"
                       src={item.icon}
                       alt="icon"
                       loading="lazy"
@@ -192,7 +194,7 @@ function Reward({ setValue, valueSetup, valueQuest, setValueReward, data, onActi
                 <Select.Option disabled={item.value.includes("NFT")} key={item.value} value={item.value}>
                   <div className="text-[14px] md:text-[18px] flex items-center">
                     <img
-                      className="w-[24px] h-[24px] md:w-[40px] md:h-[40px] rounded-full mr-2"
+                      className="w-[24px] h-[24px] md:w-[36px] md:h-[36px] rounded-full mr-2"
                       src={item.icon}
                       alt="icon"
                       loading="lazy"

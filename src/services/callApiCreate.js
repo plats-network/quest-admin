@@ -7,7 +7,9 @@ const Network = {
   "Astar": "astar",
   "Astar(Testnet)": "astar_testnet",
   "Polkadot": "polkadot",
-  "Aleph Zero(Testnet)": "aleph_testnet"
+  "Aleph Zero(Testnet)": "aleph_testnet",
+  "Acala": "acala",
+  "Moonbeam": "moonbeam"
 };
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
   const tasks = [];

@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply scroll-smooth
+  }
+}
+
 
 @layer components {
   .title {
@@ -163,6 +169,9 @@
   }
  .ant-select-item-option-content {
  @apply text-[14px] md:text-[18px]
+ }
+ .ant-select-item-option:hover {
+  @apply !bg-[#FF6C22] bg-opacity-30
  }
  .ant-input.ant-input-disabled {
   @apply !text-white

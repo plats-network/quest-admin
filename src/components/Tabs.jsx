@@ -27,7 +27,9 @@ function Tabs() {
   const mappingNetwork = {
     aleph: "Aleph Zero",
     Astar: "Astar",
-    Polkadot: "Polkadot"
+    Polkadot: "Polkadot",
+    acala: "Acala",
+    moonbeam: "Moonbeam"
   };
 
   useEffect(() => {
