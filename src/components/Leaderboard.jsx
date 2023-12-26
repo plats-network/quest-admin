@@ -34,13 +34,7 @@ function Leaderboard({
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [listLuckyMembers, setListLuckyMembers] = useState([
-    "5HCG11Cna8izxKKxHnpwG5CrgnGgzxWL9DkBz2GU2NxXUBSs",
-    "5Hdx9BzTpBXbzNxMduDvdfTHnz9KEjkiFXtRc5ZHSQmtCto5",
-    "5FLSuUeS3DJ4ZBebJBA6b5DehEc143wC7gTkqWjNHbuHh12V",
-    "5EJPcHtns4PFmE1JYf1SvBnqGZpVCPLMmwbGeReAHGhDWXUV",
-    "5EhKeeRZFvv65no1CpchVYQVPfYEvLFAUiBvN64arL6Z8mPP"
-  ]);
+  const [listLuckyMembers, setListLuckyMembers] = useState([]);
   const [isPrize, setIsPrize] = useState(false);
 
   const CONTRACT_ADDRESS_ALPHE = import.meta.env.VITE_CONTRACT_ADDRESS_ALEPH;
