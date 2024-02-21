@@ -33,6 +33,15 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status)
       entry_type: "TRANSFER_ACTIVITY"
     });
   }
+  if (valueQuest?.infoCheckNft?.address) {
+    tasks.push({
+      name: "Check NFT",
+      block_chain_network: Network[valueQuest?.infoCheckNft?.network],
+      address: valueQuest?.infoCheckNft?.address,
+      status: "Active",
+      entry_type: "NFT_CHECK"
+    });
+  }
   if (valueQuest?.twitterFollow) {
     tasks.push({
       name: "Twitter Follow",
@@ -63,6 +72,23 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status)
       entry_type: "TWITTER_HASHTAG",
       hash_tag: valueQuest?.twitterHashtag,
       value: valueQuest?.twitterHashtagUrl,
+      status : "Active"
+    });
+  }
+  if (valueQuest?.urlDiscord) {
+    tasks.push({
+      name: "Discord",
+      entry_type: "DISCORD_JOIN",
+      value: valueQuest?.urlDiscord,
+      status : "Active"
+    });
+  }
+
+  if (valueQuest?.urlTelegram) {
+    tasks.push({
+      name: "Telegram",
+      entry_type: "TELEGRAM_JOIN",
+      value: valueQuest?.urlTelegram,
       status : "Active"
     });
   }
@@ -109,6 +135,15 @@ export const callApiUpdate = async (id, valueSetup, valueQuest, valueReward, sta
       entry_type: "TRANSFER_ACTIVITY"
     });
   }
+  if (valueQuest?.infoCheckNft?.address) {
+    tasks.push({
+      name: "Check NFT",
+      block_chain_network: Network[valueQuest?.infoCheckNft?.network],
+      address: valueQuest?.infoCheckNft?.address,
+      status: "Active",
+      entry_type: "NFT_CHECK"
+    });
+  }
   if (valueQuest?.twitterFollow) {
     tasks.push({
       name: "Twitter Follow",
@@ -142,6 +177,26 @@ export const callApiUpdate = async (id, valueSetup, valueQuest, valueReward, sta
       status : "Active"
     });
   }
+
+  if (valueQuest?.urlDiscord) {
+    tasks.push({
+      name: "Discord",
+      entry_type: "DISCORD_JOIN",
+      value: valueQuest?.urlDiscord,
+      status : "Active"
+    });
+  }
+
+  if (valueQuest?.urlTelegram) {
+    tasks.push({
+      name: "Telegram",
+      entry_type: "TELEGRAM_JOIN",
+      value: valueQuest?.urlTelegram,
+      status : "Active"
+    });
+  }
+
+
   const body = {
     name: valueSetup?.title,
     content: valueSetup?.description,

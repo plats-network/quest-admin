@@ -18,9 +18,14 @@ import Like from "./Twitter/Like";
 import Retweet from "./Twitter/Retweet";
 import LogicHandleButton from "../utils/LogicHandleButton";
 import { checkTaskOnChain } from "../utils/checkTaskOnChain";
+import NftTemplate from "./ActionWeb3/NftTemplate";
+import ButtonDiscord from "./Button/ButtonDiscord";
+import ButtonTelegram from "./Button/ButtonTelegram";
+import JoinDiscord from "./Twitter/JoinDiscord";
+import JoinTelegram from "./Twitter/JoinTelegram";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
-const ActionWeb3 = ["Token Holder", "Transaction Activity"];
+const ActionWeb3 = ["Token Holder", "Transaction Activity", "NFT"];
 
 function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart }) {
   const param = useParams();
@@ -34,12 +39,15 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     Follow: false,
     Retweet: false,
     Like: false,
-    Hashtag: false
+    Hashtag: false,
+    Discord: false,
+    Telegram: false
   });
 
   const [activeTemplate, setActiveTemplate] = useState({
     TokenHolder: false,
-    TransactionActivity: false
+    TransactionActivity: false,
+    NFT: false
   });
 
   const [follow, setFollow] = useState(data?.twitterFollow || "");
@@ -47,6 +55,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
   const [like, setLike] = useState(data?.twitterLike || "");
   const [hashtag, setHashtag] = useState(data?.twitterHashtag || "");
   const [urlHashtag, setUrlHashtag] = useState(data?.twitterHashtagUrl || "");
+  const [linkDiscord, setLinkDiscord] = useState(data?.urlDiscord || "");
+  const [linkTelegram, setLinkTelegram] = useState(data?.urlTelegram || "");
 
   const [tokenHolder, setTokenHolder] = useState(
     data?.tokenHolder || {
@@ -64,6 +74,13 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     }
   );
 
+  const [infoCheckNft, setInfoCheckNft] = useState(
+    data?.infoCheckNft || {
+      network: "Aleph Zero(Testnet)",
+      address: ""
+    }
+  );
+
   const handleNext = () => {
     const res = checkAllowedNext(
       activeTwitter,
@@ -74,7 +91,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
       hashtag,
       urlHashtag,
       tokenHolder,
-      transactionActivity
+      transactionActivity,
+      linkDiscord,
+      linkTelegram,
+      infoCheckNft
     );
     const check = validateTaskQuest(activeTwitter, follow, retweet, like, urlHashtag, hashtag);
     const checkAmount = checkTaskOnChain(tokenHolder.minimumAmount, transactionActivity.minimumAmount);
@@ -88,7 +108,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         twitterHashtag: hashtag,
         twitterHashtagUrl: urlHashtag,
         tokenHolder: tokenHolder,
-        transactionActivity: transactionActivity
+        transactionActivity: transactionActivity,
+        urlDiscord: linkDiscord,
+        urlTelegram: linkTelegram,
+        infoCheckNft
       });
       setValue("Reward");
       onActive((prev) => {
@@ -115,7 +138,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         twitterHashtag: hashtag,
         twitterHashtagUrl: urlHashtag,
         tokenHolder: tokenHolder,
-        transactionActivity: transactionActivity
+        transactionActivity: transactionActivity,
+        urlDiscord: linkDiscord,
+        urlTelegram: linkTelegram,
+        infoCheckNft
       });
       if (res.data?.status === "success") {
         notifySuccess("Update campaign successfully");
@@ -142,7 +168,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         twitterLike: like,
         twitterHashtag: hashtag,
         tokenHolder: tokenHolder,
-        transactionActivity: transactionActivity
+        transactionActivity: transactionActivity,
+        urlDiscord: linkDiscord,
+        urlTelegram: linkTelegram,
+        infoCheckNft
       });
       if (res.data.status === "success") {
         navigate("/campaign");
@@ -171,6 +200,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
             </ButtonTwitter>
           );
         })}
+        <ButtonDiscord setActionTwitter={setActionTwitter}>Discord</ButtonDiscord>
+        <ButtonTelegram setActionTwitter={setActionTwitter}>Telegram</ButtonTelegram>
         {ActionWeb3.map((item, index) => {
           return (
             <ButtonNetwork countRef={countRef} key={index} setActiveTemplate={setActiveTemplate}>
@@ -222,6 +253,26 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         ) : (
           ""
         )}
+        {activeTwitter.Discord || data?.urlDiscord ? (
+          <JoinDiscord
+            linkDiscord={linkDiscord}
+            setActionTwitter={setActionTwitter}
+            setLinkDiscord={setLinkDiscord}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
+          />
+        ) : (
+          ""
+        )}
+        {activeTwitter.Telegram || data?.urlTelegram ? (
+          <JoinTelegram
+            linkTelegram={linkTelegram}
+            setActionTwitter={setActionTwitter}
+            setLinkTelegram={setLinkTelegram}
+            isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
+          />
+        ) : (
+          ""
+        )}
         {activeTemplate.TokenHolder || data?.tokenHolder?.minimumAmount ? (
           <TemplateWeb3
             value={tokenHolder}
@@ -243,6 +294,11 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
             label="Minimum number of transactions"
             isDisable={handleCheckDisable(isDetail, isEdit, stateQuest)}
           />
+        ) : (
+          ""
+        )}
+        {activeTemplate.NFT || data?.infoCheckNft?.network ? (
+          <NftTemplate value={infoCheckNft} setInfoCheckNft={setInfoCheckNft} title="NFT" />
         ) : (
           ""
         )}

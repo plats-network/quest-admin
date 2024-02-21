@@ -78,6 +78,9 @@ function Tabs() {
       let twitterHashtagUrl = null;
       let tokenHolder = null;
       let transactionActivity = null;
+      let urlDiscord = null;
+      let urlTelegram = null;
+      let infoCheckNft = null;
       try {
         const tasks = campaign?.tasks;
         setTimeStart(campaign?.start_at);
@@ -112,6 +115,18 @@ function Tabs() {
             twitterHashtag = item?.hash_tag;
             twitterHashtagUrl = item?.value;
           }
+          if (item?.entry_type === "DISCORD_JOIN") {
+            urlDiscord = item?.value;
+          }
+          if (item?.entry_type === "TELEGRAM_JOIN") {
+            urlTelegram = item?.value;
+          }
+          if (item?.entry_type === "NFT_CHECK") {
+            infoCheckNft = {
+              network: networkOptions[item?.block_chain_network],
+              address: item?.address
+            };
+          }
         });
         setValueSetup({
           title: campaign?.name,
@@ -129,6 +144,9 @@ function Tabs() {
           twitterHashtagUrl,
           tokenHolder,
           transactionActivity,
+          urlDiscord,
+          urlTelegram,
+          infoCheckNft,
           status: campaign?.status
         });
         setValueReward({
