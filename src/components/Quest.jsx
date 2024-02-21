@@ -298,7 +298,12 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
           ""
         )}
         {activeTemplate.NFT || data?.infoCheckNft?.network ? (
-          <NftTemplate value={infoCheckNft} setInfoCheckNft={setInfoCheckNft} title="NFT" />
+          <NftTemplate
+            value={infoCheckNft}
+            setActiveTemplate={setActiveTemplate}
+            setInfoCheckNft={setInfoCheckNft}
+            title="NFT"
+          />
         ) : (
           ""
         )}
