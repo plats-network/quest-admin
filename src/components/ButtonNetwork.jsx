@@ -3,7 +3,8 @@ import { Button } from "antd";
 const Map = {
   "Token Holder": "TokenHolder",
   "Transaction Activity": "TransactionActivity",
-  NFT: "NFT"
+  NFT: "NFT",
+  Referal: "Referal"
 };
 
 function ButtonNetwork({ children, setActiveTemplate, countRef }) {

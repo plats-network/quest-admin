@@ -91,7 +91,18 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status)
       value: valueQuest?.urlTelegram,
       status : "Active"
     });
+
   }
+  if (valueQuest?.isReferal) {
+    tasks.push({
+      name: "Refernal",
+      entry_type: "SOCIAL",
+      status: "Active",
+      block_chain_network: "astar",
+      address: "default"
+    });
+  }
+
   const body = {
     name: valueSetup?.title,
     content: valueSetup?.description,
@@ -106,8 +117,6 @@ export const callApiCreate = async (valueSetup, valueQuest, valueReward, status)
     status: status ? "Active" : "Draft",
     tasks
   };
-
-
   const res = await instanceAxios.post(routes.quest.createCampaign, body);
   return res;
 };
@@ -194,8 +203,18 @@ export const callApiUpdate = async (id, valueSetup, valueQuest, valueReward, sta
       value: valueQuest?.urlTelegram,
       status : "Active"
     });
+
   }
 
+  if (valueQuest?.isReferal) {
+    tasks.push({
+      name: "Refernal",
+      entry_type: "SOCIAL",
+      status: "Active",
+      block_chain_network: "astar",
+      address: "default"
+    });
+  }
 
   const body = {
     name: valueSetup?.title,

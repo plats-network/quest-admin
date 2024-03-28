@@ -23,9 +23,10 @@ import ButtonDiscord from "./Button/ButtonDiscord";
 import ButtonTelegram from "./Button/ButtonTelegram";
 import JoinDiscord from "./Twitter/JoinDiscord";
 import JoinTelegram from "./Twitter/JoinTelegram";
+import ReferalTemplate from "./ActionWeb3/ReferalTemplate";
 
 const ActiosTwitter = ["Follow", "Retweet", "Like", "Hashtag"];
-const ActionWeb3 = ["Token Holder", "Transaction Activity", "NFT"];
+const ActionWeb3 = ["Token Holder", "Transaction Activity", "NFT", "Referal"];
 
 function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart }) {
   const param = useParams();
@@ -47,8 +48,10 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
   const [activeTemplate, setActiveTemplate] = useState({
     TokenHolder: false,
     TransactionActivity: false,
-    NFT: false
+    NFT: false,
+    Referal: false
   });
+  console.log({ activeTemplate });
 
   const [follow, setFollow] = useState(data?.twitterFollow || "");
   const [retweet, setRetweet] = useState(data?.twitterRetweet || "");
@@ -81,6 +84,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     }
   );
 
+  const [isReferal, setIsReferal] = useState(data?.isReferal || false);
+
   const handleNext = () => {
     const res = checkAllowedNext(
       activeTwitter,
@@ -94,7 +99,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
       transactionActivity,
       linkDiscord,
       linkTelegram,
-      infoCheckNft
+      infoCheckNft,
+      isReferal
     );
     const check = validateTaskQuest(activeTwitter, follow, retweet, like, urlHashtag, hashtag);
     const checkAmount = checkTaskOnChain(tokenHolder.minimumAmount, transactionActivity.minimumAmount);
@@ -111,7 +117,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         transactionActivity: transactionActivity,
         urlDiscord: linkDiscord,
         urlTelegram: linkTelegram,
-        infoCheckNft
+        infoCheckNft,
+        isReferal
       });
       setValue("Reward");
       onActive((prev) => {
@@ -141,7 +148,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         transactionActivity: transactionActivity,
         urlDiscord: linkDiscord,
         urlTelegram: linkTelegram,
-        infoCheckNft
+        infoCheckNft,
+        isReferal
       });
       if (res.data?.status === "success") {
         notifySuccess("Update campaign successfully");
@@ -171,7 +179,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         transactionActivity: transactionActivity,
         urlDiscord: linkDiscord,
         urlTelegram: linkTelegram,
-        infoCheckNft
+        infoCheckNft,
+        isReferal
       });
       if (res.data.status === "success") {
         navigate("/campaign");
@@ -189,6 +198,8 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
       setIsEdit(true);
     }
   };
+
+  console.log(data);
 
   return (
     <div>
@@ -297,12 +308,22 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
         ) : (
           ""
         )}
-        {activeTemplate.NFT || data?.infoCheckNft?.network ? (
+        {activeTemplate.NFT || data?.infoCheckNft?.address ? (
           <NftTemplate
             value={infoCheckNft}
             setActiveTemplate={setActiveTemplate}
             setInfoCheckNft={setInfoCheckNft}
             title="NFT"
+          />
+        ) : (
+          ""
+        )}
+        {activeTemplate.Referal || data?.isReferal ? (
+          <ReferalTemplate
+            value={isReferal}
+            setActiveTemplate={setActiveTemplate}
+            setIsReferal={setIsReferal}
+            title="Referal"
           />
         ) : (
           ""
