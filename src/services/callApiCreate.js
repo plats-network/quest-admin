@@ -9,7 +9,8 @@ const Network = {
   "Polkadot": "polkadot",
   "Aleph Zero(Testnet)": "aleph_testnet",
   "Acala": "acala",
-  "Moonbeam": "moonbeam"
+  "Moonbeam": "moonbeam",
+  "Phala(Testnet)": "phala"
 };
 export const callApiCreate = async (valueSetup, valueQuest, valueReward, status) => {
   const tasks = [];

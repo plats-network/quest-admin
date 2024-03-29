@@ -199,8 +199,6 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     }
   };
 
-  console.log(data);
-
   return (
     <div>
       <div className="flex flex-wrap items-center gap-4 mb-8 px-2 md:px-0">
