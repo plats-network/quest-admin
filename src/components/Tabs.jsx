@@ -81,6 +81,7 @@ function Tabs() {
       let urlDiscord = null;
       let urlTelegram = null;
       let infoCheckNft = null;
+      let isReferal = false;
       try {
         const tasks = campaign?.tasks;
         setTimeStart(campaign?.start_at);
@@ -127,6 +128,9 @@ function Tabs() {
               address: item?.address
             };
           }
+          if (item?.entry_type === "SOCIAL") {
+            isReferal = true;
+          }
         });
         setValueSetup({
           title: campaign?.name,
@@ -147,7 +151,8 @@ function Tabs() {
           urlDiscord,
           urlTelegram,
           infoCheckNft,
-          status: campaign?.status
+          status: campaign?.status,
+          isReferal
         });
         setValueReward({
           network: mappingNetwork[campaign?.block_chain_network],

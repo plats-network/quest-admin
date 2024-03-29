@@ -10,7 +10,8 @@ export const checkAllowedNext = (
   transactionActivity,
   linkDiscord,
   linkTelegram,
-  infoCheckNft
+  infoCheckNft,
+  isReferal
 ) => {
   if (activeTwitter.Follow && !follow) return false;
   if (activeTwitter.Retweet && !retweet) return false;
@@ -34,7 +35,8 @@ export const checkAllowedNext = (
     !transactionActivity.minimumAmount &&
     !linkDiscord &&
     !linkTelegram &&
-    !infoCheckNft.address
+    !infoCheckNft.address &&
+    !isReferal
   )
     return false;
   return true;
