@@ -51,7 +51,6 @@ function Quest({ setValue, valueSetup, setValueQuest, data, onActive, timeStart 
     NFT: false,
     Referal: false
   });
-  console.log({ activeTemplate });
 
   const [follow, setFollow] = useState(data?.twitterFollow || "");
   const [retweet, setRetweet] = useState(data?.twitterRetweet || "");

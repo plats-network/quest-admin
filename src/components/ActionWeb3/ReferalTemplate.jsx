@@ -8,7 +8,10 @@ const ReferalTemplate = ({ value, setActiveTemplate, setIsReferal, title }) => {
   return (
     <div className="relative">
       <div className="borderBlue rounded-lg p-2 md:py-4 md:px-6 mb-4 relative flex items-center justify-between">
-        <h1 className="text-[16px] md:text-[24px] font-semibold text-white mt-12">{title}</h1>
+        <h1 className="text-[16px] md:text-[24px] font-semibold text-white">
+          {title}
+          <p className="text-white text-sm">Refer friend to increase the chance of winning Lucky Draw Only</p>
+        </h1>
         <Switch value={value} className="mt-12 bg-gray-950" defaultChecked onChange={onChange} />
       </div>
       <div
